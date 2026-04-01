@@ -1,12 +1,12 @@
 # Skills Dashboard
 
-*Last generated: 2026-04-01 12:18 UTC*
+*Last generated: 2026-04-01 12:24 UTC*
 
 ## Overview
 
 | Skill | Status | Version | Rating | Evals | Skill Impact |
 |-------|--------|---------|--------|-------|-------------|
-| [dynamodb-single-table](#dynamodb-single-table) | `draft` | `v1` | █████████░ 97% | 8 | -2% |
+| [dynamodb-single-table](#dynamodb-single-table) | `draft` | `v2` | █████████░ 93% | 8 | -6% |
 | [nodejs-security](#nodejs-security) | `draft` | `v1` | ░░░░░░░░░░ 0% | 8 | — |
 
 ## Skill Details
@@ -16,55 +16,40 @@
 | | |
 |---|---|
 | **Status** | `draft` |
-| **Version** | `v1` |
+| **Version** | `v2` |
 | **Last eval** | 2026-04-01 |
 | **Eval cases** | 8 |
-| **Rating** | █████████░ **97%** |
-| **vs baseline** | -2% (baseline=99%) |
+| **Rating** | █████████░ **93%** |
+| **vs previous** | -4% |
+| **vs baseline** | -6% (baseline=99%) |
 
 **Version history**
 
 | Version | Date | Score | Rating | Evals | Models |
 |---------|------|-------|--------|-------|--------|
 | `v1` | 2026-04-01 | 189/195 | █████████░ 97% | 21 | claude-haiku-4-5-20251001, claude-opus-4-6, claude-sonnet-4-6 |
+| `v2` | 2026-04-01 | 59.5/64 | █████████░ 93% | 7 | claude-haiku-4-5-20251001, claude-opus-4-6, claude-sonnet-4-6 |
 
 **Eval results (current version)**
 
 | Eval | Type | Score | Result |
 |------|------|-------|--------|
+| adversarial-kitchen-sink | adversarial | 7/8 | PASS |
 | adversarial-kitchen-sink | adversarial | 8/8 | PASS |
 | adversarial-kitchen-sink | adversarial | 8/8 | PASS |
-| adversarial-kitchen-sink | adversarial | 5/8 | PARTIAL |
-| edge-case-many-to-many | edge-case | 8/8 | PASS |
-| edge-case-many-to-many | edge-case | 8/8 | PASS |
-| edge-case-many-to-many | edge-case | 8/8 | PASS |
+| edge-case-migration | edge-case | 8/9 | PARTIAL |
 | edge-case-migration | edge-case | 9/9 | PASS |
-| edge-case-migration | edge-case | 9/9 | PASS |
-| edge-case-migration | edge-case | 6.5/9 | PARTIAL |
-| edge-case-time-series | edge-case | 9/9 | PASS |
-| edge-case-time-series | edge-case | 9/9 | PASS |
-| edge-case-time-series | edge-case | 9/9 | PASS |
 | happy-path-basic-app | happy-path | 11/11 | PASS |
-| happy-path-basic-app | happy-path | 11/11 | PASS |
-| happy-path-basic-app | happy-path | 11/11 | PASS |
-| happy-path-multi-tenant | happy-path | 11/11 | PASS |
-| happy-path-multi-tenant | happy-path | 11/11 | PASS |
-| happy-path-multi-tenant | happy-path | 10.5/11 | PASS |
-| happy-path-realtime | happy-path | 9/9 | PASS |
-| happy-path-realtime | happy-path | 9/9 | PASS |
-| happy-path-realtime | happy-path | 9/9 | PASS |
+| happy-path-multi-tenant | happy-path | 8.5/11 | PARTIAL |
 **Cross-model comparison (current version)**
 
 | Eval | Haiku | Opus | Sonnet |
 |------|-----|-----|-----|
-| adversarial-kitchen-sink | 5/8 | 8/8 | 8/8 |
-| edge-case-many-to-many | 8/8 | 8/8 | 8/8 |
-| edge-case-migration | 6.5/9 | 9/9 | 9/9 |
-| edge-case-time-series | 9/9 | 9/9 | 9/9 |
-| happy-path-basic-app | 11/11 | 11/11 | 11/11 |
-| happy-path-multi-tenant | 10.5/11 | 11/11 | 11/11 |
-| happy-path-realtime | 9/9 | 9/9 | 9/9 |
-| **Total** | **91%** | **100%** | **100%** |
+| adversarial-kitchen-sink | 7/8 | 8/8 | 8/8 |
+| edge-case-migration | 8/9 | — | 9/9 |
+| happy-path-basic-app | 11/11 | — | — |
+| happy-path-multi-tenant | 8.5/11 | — | — |
+| **Total** | **88%** | **100%** | **100%** |
 
 **Skill impact: With Skill vs Without Skill (Baseline)**
 
@@ -74,22 +59,22 @@
 |-------|-----------|---------------|-------------|
 | Haiku | 88% | 100% | -12% |
 | Opus | 100% | 100% | = |
-| Sonnet | 100% | 98% | +2% |
+| Sonnet | 100% | 100% | = |
 
 <details>
 <summary>Per-eval baseline details</summary>
 
 | Eval | Model | With Skill | Without Skill | Delta |
 |------|-------|-----------|---------------|-------|
-| adversarial-kitchen-sink | Haiku | 5/8 | 8/8 | -38% |
+| adversarial-kitchen-sink | Haiku | 7/8 | 8/8 | -12% |
 | happy-path-basic-app | Haiku | 11/11 | 11/11 | = |
-| happy-path-multi-tenant | Haiku | 10.5/11 | 11/11 | -5% |
+| happy-path-multi-tenant | Haiku | 8.5/11 | 11/11 | -23% |
 | adversarial-kitchen-sink | Opus | 8/8 | 8/8 | = |
-| happy-path-basic-app | Opus | 11/11 | 11/11 | = |
-| happy-path-multi-tenant | Opus | 11/11 | 11/11 | = |
+| happy-path-basic-app | Opus | — | 11/11 | — |
+| happy-path-multi-tenant | Opus | — | 11/11 | — |
 | adversarial-kitchen-sink | Sonnet | 8/8 | 8/8 | = |
-| happy-path-basic-app | Sonnet | 11/11 | 11/11 | = |
-| happy-path-multi-tenant | Sonnet | 11/11 | 10.5/11 | +5% |
+| happy-path-basic-app | Sonnet | — | 11/11 | — |
+| happy-path-multi-tenant | Sonnet | — | 10.5/11 | — |
 
 </details>
 
