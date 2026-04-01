@@ -1,6 +1,6 @@
 # Skills Dashboard
 
-*Last generated: 2026-04-01 12:45 UTC*
+*Last generated: 2026-04-01 12:56 UTC*
 
 ## Overview
 
@@ -8,7 +8,6 @@
 |-------|--------|---------|--------|-------|-------------|
 | [dynamodb-single-table](#dynamodb-single-table) | `draft` | `v2` | █████████░ 93% | 8 | -6% |
 | [nodejs-security](#nodejs-security) | `draft` | `v1` | ██████████ 100% | 8 | +8% |
-| [eval-methodology](#eval-methodology) | `draft` | `v1` | ░░░░░░░░░░ 0% | 0 | — |
 
 ## Skill Details
 
@@ -179,27 +178,6 @@
 | happy-path-rest-api | Sonnet | 11/11 | 11/11 | = |
 
 </details>
-
----
-
-### Eval Methodology
-
-| | |
-|---|---|
-| **Status** | `draft` |
-| **Version** | `v1` |
-| **Last eval** | n/a |
-| **Eval cases** | 0 |
-| **Rating** | ░░░░░░░░░░ **0%** |
-
-**Version notes**
-
-- `v1`: Initial methodology for fair skill evaluation and accurate dashboard results
-
-**Eval results (current version)**
-
-| Eval | Type | Score | Result |
-|------|------|-------|--------|
 
 ---
 

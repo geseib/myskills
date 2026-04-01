@@ -2,10 +2,21 @@
 
 This is a **skills repository** — a personal library for building, testing, and sharing Claude Code skills across multiple projects.
 
+## Two types of skills in this repo
+
+**Repo operational skills** (`.claude/skills/`) — govern HOW you work in this repo. These are auto-loaded by Claude Code and enforce processes like eval methodology and dashboard management. They are NOT the product of this repo — they are the tooling.
+
+**Subject skills** (`drafts/` and `skills/`) — the actual skills being developed, tested, and shared. These are the product of this repo. They go through the lifecycle: drafts/ → eval → skills/ → other projects.
+
+Do not confuse these. Operational skills tell you how to build and test subject skills. Subject skills are what you ship to other projects.
+
 ## Repo layout
 
 ```
-skills/                  # Production-ready skills, each in its own folder
+.claude/skills/          # Repo operational skills (auto-loaded by Claude Code)
+  eval-methodology.md    # How to run fair, accurate evals
+  dashboard-management.md # How to manage the dashboard and results
+skills/                  # Production-ready subject skills, each in its own folder
   <skill-name>/
     skill.md             # The skill prompt (required)
     README.md            # Docs: purpose, usage, examples
@@ -125,7 +136,7 @@ For each model, run:
 1. **With skill** — all eval cases (model reads skill.md, then responds to the prompt)
 2. **Baseline** (without skill) — 3 representative evals (1 happy-path, 1 edge-case, 1 adversarial) to measure native model capability
 
-**CRITICAL: Separate generation from grading.** See `drafts/eval-methodology/skill.md` for the full protocol. Key rules:
+**CRITICAL: Separate generation from grading.** See `.claude/skills/eval-methodology.md` for the full protocol. Key rules:
 
 - **Generation prompt must NOT include eval criteria.** If the model sees "SELF-EVALUATE against: 1. uses Zod, 2. uses helmet..." it will treat the criteria as requirements and inflate scores. Send only the task prompt.
 - **Grade in a separate pass.** After the model generates code, evaluate the output against criteria in a separate agent/conversation. The grader reads the generated code and scores it — the generator never sees the rubric.

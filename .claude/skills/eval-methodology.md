@@ -1,8 +1,6 @@
-<!-- skill-version: v1 -->
-<!-- version-notes: v1=Initial methodology for fair skill evaluation and accurate dashboard results -->
 # Eval Methodology
 
-Ensure skill evaluations produce fair, comparable results across models and versions. Prevent common eval pitfalls that invalidate comparisons.
+Ensure skill evaluations produce fair, comparable results across models and versions. This skill governs HOW evals are run in this repo.
 
 ## When to use
 
@@ -54,17 +52,22 @@ Build an Express API for task management. Users can:
 Use PostgreSQL for storage.
 ```
 
-### Step 2: Grade the response separately
+### Step 2: Grade in a separate pass
 
-After the model generates its response, evaluate the output against the criteria in a SEPARATE pass. The grader can be:
-- A separate agent that reads the generated code and scores it
+After the model generates its response, evaluate the output against criteria in a SEPARATE agent or conversation. The grader:
+- Reads the generated code
+- Scores it against the eval criteria
+- Never shares context with the generator
+
+The grader can be:
+- A separate agent that reads the generated output and scores it
 - Manual review against the rubric
 - The same model in a NEW conversation given only the output to grade
 
 ### Step 3: Record results
 
 Append to `eval-results/<skill>/results.jsonl` with all required fields:
-- `eval_id`, `run_id`, `skill_version`, `model`, `with_skill`, `score`, `overall`, `notes`
+- `eval_id`, `run_id` (ISO timestamp), `skill_version` (from frontmatter or "baseline"), `skill_commit`, `model`, `with_skill` (true/false), `score` (X/Y), `overall` (pass/partial/fail), `notes`
 
 ## Version comparison rules
 
@@ -74,14 +77,13 @@ A version comparison is only valid when:
 - Both versions ran the **same set of eval_ids**
 - Both versions ran on the **same set of models**
 
-If v2 only ran 4 of 7 evals from v1, the dashboard must:
+If v2 only ran 4 of 7 evals from v1, the dashboard will:
 - Flag the comparison as incomplete (⚠️)
-- NOT show a "vs previous" delta
 - List which evals are missing
 
 ### How to run a fair version comparison
 
-1. Identify all eval_ids from the previous version
+1. Identify all eval_ids from the previous version's results
 2. Run ALL of them on the new version
 3. Run on the SAME models as the previous version
 4. Only then calculate and compare percentages
@@ -94,7 +96,7 @@ Baseline runs measure what the model does WITHOUT the skill. They must:
 - Use the EXACT same task prompt as the with-skill run
 - NOT include the skill.md content
 - NOT include eval criteria in the prompt
-- Be graded by a separate agent or manual review
+- Be graded by a separate agent/pass using the eval criteria
 
 ### Representative sampling
 
@@ -105,16 +107,7 @@ Run baselines on at least:
 
 Per model being compared.
 
-## Dashboard accuracy checks
-
-### The dashboard must show:
-
-1. **Coverage warnings** — when a version has fewer evals than the previous
-2. **Cost-aware best markers** — ⭐ goes to cheapest model at highest score
-3. **Fair Skill Impact** — only compare with-skill vs baseline on the SAME eval+model pairs
-4. **Eval count per model** — so readers can see if one model was tested less
-
-### Red flags to watch for:
+## Red flags to watch for
 
 - A cheaper model outscoring an expensive one on baselines (may indicate criteria leakage)
 - A version showing improvement but with fewer evals (cherry-picked results)
