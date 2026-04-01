@@ -1,3 +1,4 @@
+<!-- skill-version: v1 -->
 # DynamoDB Single Table Design
 
 Design DynamoDB tables using single table design patterns that are efficient, simple, and eliminate the need for multiple tables or database types.
