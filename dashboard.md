@@ -1,6 +1,6 @@
 # Skills Dashboard
 
-*Last generated: 2026-04-01 12:24 UTC*
+*Last generated: 2026-04-01 12:25 UTC*
 
 ## Overview
 
@@ -23,12 +23,16 @@
 | **vs previous** | -4% |
 | **vs baseline** | -6% (baseline=99%) |
 
-**Version history**
+**Version history (per model)**
 
-| Version | Date | Score | Rating | Evals | Models |
-|---------|------|-------|--------|-------|--------|
-| `v1` | 2026-04-01 | 189/195 | █████████░ 97% | 21 | claude-haiku-4-5-20251001, claude-opus-4-6, claude-sonnet-4-6 |
-| `v2` | 2026-04-01 | 59.5/64 | █████████░ 93% | 7 | claude-haiku-4-5-20251001, claude-opus-4-6, claude-sonnet-4-6 |
+| Version | Model | Score | Rating | Evals | Best? |
+|---------|-------|-------|--------|-------|-------|
+| `v1` | Haiku | 59/65 | █████████░ 91% | 7 |  |
+| `v1` | Opus | 65/65 | ██████████ 100% | 7 | ⭐ |
+| `v1` | Sonnet | 65/65 | ██████████ 100% | 7 |  |
+| `v2` | Haiku | 34.5/39 | ████████░░ 88% | 4 |  |
+| `v2` | Opus | 8/8 | ██████████ 100% | 1 |  |
+| `v2` | Sonnet | 17/17 | ██████████ 100% | 2 |  |
 
 **Eval results (current version)**
 

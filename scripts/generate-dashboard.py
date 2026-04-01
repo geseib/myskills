@@ -173,24 +173,60 @@ def generate_skill_section(skill_name, results):
 
     lines.append("")
 
-    # Version history table
+    # Version history — per model per version
     if version_scores:
-        lines.append("**Version history**")
+        lines.append("**Version history (per model)**")
         lines.append("")
-        lines.append("| Version | Date | Score | Rating | Evals | Models |")
-        lines.append("|---------|------|-------|--------|-------|--------|")
-        for ver in sorted(version_scores.keys()):
+        lines.append("| Version | Model | Score | Rating | Evals | Best? |")
+        lines.append("|---------|-------|-------|--------|-------|-------|")
+
+        # Calculate per-version per-model scores
+        best_overall_pct = 0
+        best_overall_key = None
+        version_model_scores = {}
+
+        for ver in sorted(by_version.keys()):
             if ver == "baseline":
                 continue
-            s = version_scores[ver]
-            v_bar = "█" * (s["pct"] // 10) + "░" * (10 - s["pct"] // 10)
-            models_str = ", ".join(sorted(s["models"]))
-            # Format scores as int when whole numbers
-            tn = int(s['total_num']) if s['total_num'] == int(s['total_num']) else s['total_num']
-            td = int(s['total_denom']) if s['total_denom'] == int(s['total_denom']) else s['total_denom']
-            lines.append(
-                f"| `{ver}` | {s['date']} | {tn}/{td} | {v_bar} {s['pct']}% | {s['count']} | {models_str} |"
-            )
+            ver_results = by_version[ver]
+            models_in_ver = sorted(set(r.get("model", "unknown") for r in ver_results))
+
+            for model in models_in_ver:
+                model_results = [r for r in ver_results if r.get("model") == model]
+                m_num = sum(parse_score(r["score"])[0] for r in model_results)
+                m_den = sum(parse_score(r["score"])[1] for r in model_results)
+                m_pct = round(m_num / m_den * 100) if m_den > 0 else 0
+                version_model_scores[(ver, model)] = m_pct
+
+                if m_pct > best_overall_pct:
+                    best_overall_pct = m_pct
+                    best_overall_key = (ver, model)
+
+        # Find best version per model and best model per version
+        for ver in sorted(by_version.keys()):
+            if ver == "baseline":
+                continue
+            ver_results = by_version[ver]
+            models_in_ver = sorted(set(r.get("model", "unknown") for r in ver_results))
+            dates = [r.get("run_id", "")[:10] for r in ver_results]
+            latest_date = max(dates) if dates else "n/a"
+
+            for model in models_in_ver:
+                model_results = [r for r in ver_results if r.get("model") == model]
+                m_num = sum(parse_score(r["score"])[0] for r in model_results)
+                m_den = sum(parse_score(r["score"])[1] for r in model_results)
+                m_pct = round(m_num / m_den * 100) if m_den > 0 else 0
+                m_bar = "█" * (m_pct // 10) + "░" * (10 - m_pct // 10)
+                tn = int(m_num) if m_num == int(m_num) else m_num
+                td = int(m_den) if m_den == int(m_den) else m_den
+
+                is_best = (ver, model) == best_overall_key
+                best_str = "⭐" if is_best else ""
+
+                lines.append(
+                    f"| `{ver}` | {_short_model(model)} | {tn}/{td} | {m_bar} {m_pct}% | {len(model_results)} | {best_str} |"
+                )
+
         lines.append("")
 
     # Individual eval results
