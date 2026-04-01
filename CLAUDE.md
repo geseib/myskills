@@ -12,6 +12,7 @@ skills/                  # Production-ready skills, each in its own folder
     evals/               # Eval cases specific to this skill
 drafts/                  # WIP: experiments, imports being adapted, new ideas
   <skill-name>/          # Same folder structure as skills/
+    versions/            # Archived previous skill versions (v1.md, v2.md, etc.)
 evals/                   # Cross-cutting eval utilities and guides
 templates/               # Starter templates for new skills
   basic/                 # Minimal skill scaffold
@@ -168,6 +169,16 @@ This reads all `eval-results/*/results.jsonl` files and generates `dashboard.md`
 - Bump version when changing the skill content, then re-run evals
 - Results JSONL captures `skill_version` per result — dashboard shows trends across versions
 - Never delete old results — they form the version history
+- **Archive previous versions:** When bumping from v1→v2, copy the old skill.md to `versions/v1.md`. This allows re-running old version evals without git checkout:
+
+```
+drafts/<skill-name>/
+  skill.md              ← always the latest version
+  versions/
+    v1.md               ← frozen copy of v1
+    v2.md               ← frozen copy of v2 (after v3 is created)
+  evals/
+```
 
 ## Working in this repo
 
