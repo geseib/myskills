@@ -19,11 +19,22 @@ SKILLS_DIR = REPO_ROOT / "skills"
 DASHBOARD_PATH = REPO_ROOT / "dashboard.md"
 
 
+def _short_model(model_name):
+    """Shorten model name for display."""
+    if "opus" in model_name:
+        return "Opus"
+    if "sonnet" in model_name:
+        return "Sonnet"
+    if "haiku" in model_name:
+        return "Haiku"
+    return model_name
+
+
 def parse_score(score_str):
-    """Parse '9/11' into (9, 11) and return percentage."""
+    """Parse '9/11' or '6.5/9' into (9, 11) and return as floats."""
     try:
         num, denom = score_str.split("/")
-        return int(num), int(denom)
+        return float(num), float(denom)
     except (ValueError, AttributeError):
         return 0, 0
 
@@ -205,38 +216,105 @@ def generate_skill_section(skill_name, results):
         )
         lines.append(f"| {eval_id} | {eval_type} | {r['score']} | {result_icon} |")
 
+    # Per-model breakdown
+    all_models = sorted(set(r.get("model", "unknown") for r in results))
+    if len(all_models) > 1:
+        lines.append("**Cross-model comparison (current version)**")
+        lines.append("")
+        model_headers = " | ".join(f"{_short_model(m)}" for m in all_models)
+        lines.append(f"| Eval | {model_headers} |")
+        lines.append(f"|------|{'|'.join('-----' for _ in all_models)}|")
+
+        all_eval_ids = sorted(set(r["eval_id"] for r in current_results))
+        for eval_id in all_eval_ids:
+            cells = []
+            for model in all_models:
+                match = [r for r in current_results if r["eval_id"] == eval_id and r.get("model") == model]
+                if match:
+                    cells.append(match[0]["score"])
+                else:
+                    cells.append("—")
+            lines.append(f"| {eval_id} | {' | '.join(cells)} |")
+
+        # Model totals row
+        cells = []
+        for model in all_models:
+            model_results = [r for r in current_results if r.get("model") == model]
+            if model_results:
+                t_num = sum(parse_score(r["score"])[0] for r in model_results)
+                t_den = sum(parse_score(r["score"])[1] for r in model_results)
+                t_pct = round(t_num / t_den * 100) if t_den else 0
+                cells.append(f"**{t_pct}%**")
+            else:
+                cells.append("—")
+        lines.append(f"| **Total** | {' | '.join(cells)} |")
+        lines.append("")
+
     # Baseline comparison
     if baseline_results:
-        lines.append("")
         lines.append("**Baseline comparison (no skill loaded)**")
         lines.append("")
-        lines.append("| Eval | With Skill | Baseline | Delta |")
-        lines.append("|------|-----------|----------|-------|")
 
-        baseline_by_eval = {r["eval_id"]: r for r in baseline_results}
-        skill_by_eval = {r["eval_id"]: r for r in current_results}
+        # Group baselines by model if multi-model
+        if len(all_models) > 1:
+            lines.append(f"| Eval | Model | With Skill | Baseline | Delta |")
+            lines.append(f"|------|-------|-----------|----------|-------|")
 
-        all_eval_ids = sorted(
-            set(list(baseline_by_eval.keys()) + list(skill_by_eval.keys()))
-        )
-        for eval_id in all_eval_ids:
-            sk = skill_by_eval.get(eval_id)
-            bl = baseline_by_eval.get(eval_id)
-            sk_score = sk["score"] if sk else "—"
-            bl_score = bl["score"] if bl else "—"
+            for model in all_models:
+                model_baseline = [r for r in baseline_results if r.get("model") == model]
+                model_skill = [r for r in current_results if r.get("model") == model]
+                bl_by_eval = {r["eval_id"]: r for r in model_baseline}
+                sk_by_eval = {r["eval_id"]: r for r in model_skill}
+                all_bl_evals = sorted(set(list(bl_by_eval.keys()) + list(sk_by_eval.keys())))
 
-            if sk and bl:
-                sk_num, sk_den = parse_score(sk["score"])
-                bl_num, bl_den = parse_score(bl["score"])
-                sk_pct = round(sk_num / sk_den * 100) if sk_den else 0
-                bl_pct = round(bl_num / bl_den * 100) if bl_den else 0
-                diff = sk_pct - bl_pct
-                arrow = "+" if diff > 0 else ""
-                delta_str = f"{arrow}{diff}%" if diff != 0 else "="
-            else:
-                delta_str = "—"
+                for eval_id in all_bl_evals:
+                    sk = sk_by_eval.get(eval_id)
+                    bl = bl_by_eval.get(eval_id)
+                    if not bl:
+                        continue  # Only show evals that have a baseline
+                    sk_score = sk["score"] if sk else "—"
+                    bl_score = bl["score"] if bl else "—"
 
-            lines.append(f"| {eval_id} | {sk_score} | {bl_score} | {delta_str} |")
+                    if sk and bl:
+                        sk_num, sk_den = parse_score(sk["score"])
+                        bl_num, bl_den = parse_score(bl["score"])
+                        sk_pct = round(sk_num / sk_den * 100) if sk_den else 0
+                        bl_pct = round(bl_num / bl_den * 100) if bl_den else 0
+                        diff = sk_pct - bl_pct
+                        arrow = "+" if diff > 0 else ""
+                        delta_str = f"{arrow}{diff}%" if diff != 0 else "="
+                    else:
+                        delta_str = "—"
+
+                    lines.append(f"| {eval_id} | {_short_model(model)} | {sk_score} | {bl_score} | {delta_str} |")
+        else:
+            lines.append("| Eval | With Skill | Baseline | Delta |")
+            lines.append("|------|-----------|----------|-------|")
+
+            baseline_by_eval = {r["eval_id"]: r for r in baseline_results}
+            skill_by_eval = {r["eval_id"]: r for r in current_results}
+
+            all_eval_ids = sorted(
+                set(list(baseline_by_eval.keys()) + list(skill_by_eval.keys()))
+            )
+            for eval_id in all_eval_ids:
+                sk = skill_by_eval.get(eval_id)
+                bl = baseline_by_eval.get(eval_id)
+                sk_score = sk["score"] if sk else "—"
+                bl_score = bl["score"] if bl else "—"
+
+                if sk and bl:
+                    sk_num, sk_den = parse_score(sk["score"])
+                    bl_num, bl_den = parse_score(bl["score"])
+                    sk_pct = round(sk_num / sk_den * 100) if sk_den else 0
+                    bl_pct = round(bl_num / bl_den * 100) if bl_den else 0
+                    diff = sk_pct - bl_pct
+                    arrow = "+" if diff > 0 else ""
+                    delta_str = f"{arrow}{diff}%" if diff != 0 else "="
+                else:
+                    delta_str = "—"
+
+                lines.append(f"| {eval_id} | {sk_score} | {bl_score} | {delta_str} |")
 
     lines.append("")
     return "\n".join(lines)
