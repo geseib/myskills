@@ -1,14 +1,13 @@
 # Skills Dashboard
 
-*Last generated: 2026-04-01 12:27 UTC*
+*Last generated: 2026-04-01 12:35 UTC*
 
 ## Overview
 
 | Skill | Status | Version | Rating | Evals | Skill Impact |
 |-------|--------|---------|--------|-------|-------------|
 | [dynamodb-single-table](#dynamodb-single-table) | `draft` | `v2` | █████████░ 93% | 8 | -6% |
-| [nodejs-security](#nodejs-security) | `draft` | `v1` | ██████████ 100% | 8 | — |
-| [secure-blog-api](#secure-blog-api) | `draft` | `unknown` | ░░░░░░░░░░ 0% | 0 | — |
+| [nodejs-security](#nodejs-security) | `draft` | `v1` | ██████████ 100% | 8 | +8% |
 
 ## Skill Details
 
@@ -23,6 +22,11 @@
 | **Rating** | █████████░ **93%** |
 | **vs previous** | -4% |
 | **vs baseline** | -6% (baseline=99%) |
+
+**Version notes**
+
+- `v1`: Initial skill with core patterns and examples
+- `v2`: Added feed fanout, migration guidance, denormalization tradeoffs
 
 **Version history (per model)**
 
@@ -55,6 +59,15 @@
 | happy-path-basic-app | 11/11 | — | — |
 | happy-path-multi-tenant | 8.5/11 | — | — |
 | **Total** | **88%** | **100%** | **100%** |
+
+**Best for task** *(highest score, cheapest model as tiebreaker)*
+
+| Eval | Best Model | Score | Why |
+|------|-----------|-------|-----|
+| adversarial-kitchen-sink | **Sonnet** | 8/8 | Highest score at lowest cost |
+| edge-case-migration | **Sonnet** | 9/9 | Highest score at lowest cost |
+| happy-path-basic-app | **Haiku** | 11/11 | All models score 100%; Haiku is cheapest |
+| happy-path-multi-tenant | **Haiku** | 8.5/11 | Highest score at lowest cost |
 
 **Skill impact: With Skill vs Without Skill (Baseline)**
 
@@ -94,6 +107,11 @@
 | **Last eval** | 2026-04-01 |
 | **Eval cases** | 8 |
 | **Rating** | ██████████ **100%** |
+| **vs baseline** | +8% (baseline=92%) |
+
+**Version notes**
+
+- `v1`: Initial skill covering OWASP Top 10, Zod validation, bcrypt, helmet, rate limiting
 
 **Version history (per model)**
 
@@ -125,23 +143,40 @@
 | happy-path-rest-api | 11/11 | 11/11 | 11/11 |
 | **Total** | **100%** | **100%** | **100%** |
 
+**Best for task** *(highest score, cheapest model as tiebreaker)*
 
----
+| Eval | Best Model | Score | Why |
+|------|-----------|-------|-----|
+| adversarial-speed-vs-security | **Haiku** | 8/8 | All models score 100%; Haiku is cheapest |
+| edge-case-nosql-injection | **Haiku** | 8/8 | All models score 100%; Haiku is cheapest |
+| happy-path-rest-api | **Haiku** | 11/11 | All models score 100%; Haiku is cheapest |
 
-### Secure Blog Api
+**Skill impact: With Skill vs Without Skill (Baseline)**
 
-| | |
-|---|---|
-| **Status** | `draft` |
-| **Version** | `unknown` |
-| **Last eval** | n/a |
-| **Eval cases** | 0 |
-| **Rating** | ░░░░░░░░░░ **0%** |
+*Baseline = same prompt, same model, no skill loaded. Shows whether the skill actually helps.*
 
-**Eval results (current version)**
+| Model | With Skill | Without Skill | Skill Impact |
+|-------|-----------|---------------|-------------|
+| Haiku | 100% | 100% | = |
+| Opus | 100% | 78% | +22% |
+| Sonnet | 100% | 98% | +2% |
 
-| Eval | Type | Score | Result |
-|------|------|-------|--------|
+<details>
+<summary>Per-eval baseline details</summary>
+
+| Eval | Model | With Skill | Without Skill | Delta |
+|------|-------|-----------|---------------|-------|
+| adversarial-speed-vs-security | Haiku | 8/8 | 8/8 | = |
+| edge-case-nosql-injection | Haiku | 8/8 | 8/8 | = |
+| happy-path-rest-api | Haiku | 11/11 | 11/11 | = |
+| adversarial-speed-vs-security | Opus | 8/8 | 8/8 | = |
+| edge-case-nosql-injection | Opus | 8/8 | 8/8 | = |
+| happy-path-rest-api | Opus | 11/11 | 5/11 | +55% |
+| adversarial-speed-vs-security | Sonnet | 8/8 | 8/8 | = |
+| edge-case-nosql-injection | Sonnet | 8/8 | 7.5/8 | +6% |
+| happy-path-rest-api | Sonnet | 11/11 | 11/11 | = |
+
+</details>
 
 ---
 
@@ -149,6 +184,8 @@
 
 - **Rating** = percentage of eval criteria passed across all eval cases (all models combined)
 - **Skill Impact** = does the skill help? Compares with-skill vs without-skill (baseline) on the same model and evals
+- **Best for task** = cheapest model that achieves the highest score on each eval (score first, cost as tiebreaker)
 - **Cross-model comparison** = how each model performs WITH the skill loaded
+- **Version notes** = brief description of what changed in each version
 - **vs Previous** = rating change from the prior skill version
 - Regenerate with: `python3 scripts/generate-dashboard.py`

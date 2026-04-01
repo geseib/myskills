@@ -1,4 +1,5 @@
 <!-- skill-version: v1 -->
+<!-- version-notes: v1=Initial skill covering OWASP Top 10, Zod validation, bcrypt, helmet, rate limiting -->
 # Node.js Security Best Practices
 
 Write secure Node.js applications by default. Apply OWASP Top 10 mitigations, validate all inputs, handle authentication safely, and prevent common Node.js-specific vulnerabilities.

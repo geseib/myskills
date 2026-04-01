@@ -51,6 +51,43 @@ def get_skill_version(skill_name):
     return "unknown"
 
 
+def get_version_notes(skill_name):
+    """Read version notes from skill.md frontmatter.
+
+    Format: <!-- version-notes: v1=Short desc; v2=Short desc -->
+    Returns dict like {"v1": "Short desc", "v2": "Short desc"}
+    """
+    for base in [DRAFTS_DIR, SKILLS_DIR]:
+        skill_file = base / skill_name / "skill.md"
+        if skill_file.exists():
+            content = skill_file.read_text()
+            match = re.search(r"version-notes:\s*(.+?)-->", content)
+            if match:
+                notes_str = match.group(1).strip()
+                notes = {}
+                for part in notes_str.split(";"):
+                    part = part.strip()
+                    if "=" in part:
+                        ver, desc = part.split("=", 1)
+                        notes[ver.strip()] = desc.strip()
+                return notes
+    return {}
+
+
+# Model cost tiers (lower = cheaper). Used for "Best for task" ranking.
+MODEL_COST_TIER = {
+    "haiku": 1,
+    "sonnet": 2,
+    "opus": 3,
+}
+
+
+def _model_cost(model_name):
+    """Return cost tier for a model (lower = cheaper)."""
+    short = _short_model(model_name).lower()
+    return MODEL_COST_TIER.get(short, 99)
+
+
 def get_skill_location(skill_name):
     """Check if skill is in drafts/ or skills/."""
     if (SKILLS_DIR / skill_name / "skill.md").exists():
@@ -173,6 +210,15 @@ def generate_skill_section(skill_name, results):
 
     lines.append("")
 
+    # Version notes
+    vnotes = get_version_notes(skill_name)
+    if vnotes:
+        lines.append("**Version notes**")
+        lines.append("")
+        for ver in sorted(vnotes.keys()):
+            lines.append(f"- `{ver}`: {vnotes[ver]}")
+        lines.append("")
+
     # Version history — per model per version
     if version_scores:
         lines.append("**Version history (per model)**")
@@ -287,6 +333,47 @@ def generate_skill_section(skill_name, results):
             else:
                 cells.append("—")
         lines.append(f"| **Total** | {' | '.join(cells)} |")
+        lines.append("")
+
+    # Best for task — cheapest model that scores highest per eval
+    if len(all_models) > 1 and current_results:
+        lines.append("**Best for task** *(highest score, cheapest model as tiebreaker)*")
+        lines.append("")
+        lines.append("| Eval | Best Model | Score | Why |")
+        lines.append("|------|-----------|-------|-----|")
+
+        all_eval_ids = sorted(set(r["eval_id"] for r in current_results))
+        for eval_id in all_eval_ids:
+            eval_results = [r for r in current_results if r["eval_id"] == eval_id]
+            # Score each model: (pct, -cost_tier) so higher pct wins, then cheaper wins
+            best = None
+            best_pct = -1
+            best_cost = 999
+            best_score_str = ""
+            for r in eval_results:
+                n, d = parse_score(r["score"])
+                pct = round(n / d * 100) if d else 0
+                cost = _model_cost(r.get("model", ""))
+                if pct > best_pct or (pct == best_pct and cost < best_cost):
+                    best = r
+                    best_pct = pct
+                    best_cost = cost
+                    best_score_str = r["score"]
+            if best:
+                short = _short_model(best.get("model", ""))
+                if best_pct == 100:
+                    why = f"All models score 100%; {short} is cheapest"
+                    # Check if all models scored 100%
+                    all_perfect = all(
+                        round(parse_score(r["score"])[0] / parse_score(r["score"])[1] * 100) == 100
+                        for r in eval_results if parse_score(r["score"])[1] > 0
+                    )
+                    if not all_perfect:
+                        why = f"Highest score at lowest cost"
+                else:
+                    why = f"Highest score at lowest cost"
+                lines.append(f"| {eval_id} | **{short}** | {best_score_str} | {why} |")
+
         lines.append("")
 
     # Skill Impact — does the skill help?
@@ -489,7 +576,13 @@ def generate_dashboard():
         "- **Skill Impact** = does the skill help? Compares with-skill vs without-skill (baseline) on the same model and evals"
     )
     lines.append(
+        "- **Best for task** = cheapest model that achieves the highest score on each eval (score first, cost as tiebreaker)"
+    )
+    lines.append(
         "- **Cross-model comparison** = how each model performs WITH the skill loaded"
+    )
+    lines.append(
+        "- **Version notes** = brief description of what changed in each version"
     )
     lines.append(
         "- **vs Previous** = rating change from the prior skill version"
