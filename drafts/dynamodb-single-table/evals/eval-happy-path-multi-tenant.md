@@ -1,3 +1,5 @@
+<!-- eval-version: v1 -->
+<!-- eval-notes: v1=Original criteria -->
 # Eval: Multi-tenant SaaS application
 
 **Skill:** `dynamodb-single-table`

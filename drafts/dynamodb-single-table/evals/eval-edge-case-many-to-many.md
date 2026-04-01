@@ -1,3 +1,5 @@
+<!-- eval-version: v1 -->
+<!-- eval-notes: v1=Original criteria -->
 # Eval: Many-to-many relationship
 
 **Skill:** `dynamodb-single-table`

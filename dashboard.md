@@ -1,12 +1,12 @@
 # Skills Dashboard
 
-*Last generated: 2026-04-01 13:13 UTC*
+*Last generated: 2026-04-01 13:19 UTC*
 
 ## Overview
 
 | Skill | Status | Version | Rating | Evals | Skill Impact |
 |-------|--------|---------|--------|-------|-------------|
-| [dynamodb-single-table](#dynamodb-single-table) | `draft` | `v3` | █████████░ 98% | 8 | -1% |
+| [dynamodb-single-table](#dynamodb-single-table) | `draft` | `v3` | █████████░ 98% | 9 | -1% |
 | [nodejs-security](#nodejs-security) | `draft` | `v1` | ██████████ 100% | 8 | +8% |
 
 ## Skill Details
@@ -18,7 +18,7 @@
 | **Status** | `draft` |
 | **Version** | `v3` |
 | **Last eval** | 2026-04-01 |
-| **Eval cases** | 8 |
+| **Eval cases** | 9 |
 | **Rating** | █████████░ **98%** |
 | **vs previous** | +5% |
 | **vs baseline** | -1% (baseline=99%) |
@@ -45,29 +45,29 @@
 
 **Eval results (current version)**
 
-| Eval | Type | Score | Result |
-|------|------|-------|--------|
-| adversarial-kitchen-sink | adversarial | 8/8 | PASS |
-| adversarial-kitchen-sink | adversarial | 8/8 | PASS |
-| adversarial-kitchen-sink | adversarial | 8/8 | PASS |
-| edge-case-many-to-many | edge-case | 8/8 | PASS |
-| edge-case-many-to-many | edge-case | 8/8 | PASS |
-| edge-case-many-to-many | edge-case | 7.5/8 | PASS |
-| edge-case-migration | edge-case | 8.5/9 | PASS |
-| edge-case-migration | edge-case | 9/9 | PASS |
-| edge-case-migration | edge-case | 8.5/9 | PASS |
-| edge-case-time-series | edge-case | 9/9 | PASS |
-| edge-case-time-series | edge-case | 9/9 | PASS |
-| edge-case-time-series | edge-case | 9/9 | PASS |
-| happy-path-basic-app | happy-path | 11/11 | PASS |
-| happy-path-basic-app | happy-path | 11/11 | PASS |
-| happy-path-basic-app | happy-path | 11/11 | PASS |
-| happy-path-multi-tenant | happy-path | 10.5/11 | PASS |
-| happy-path-multi-tenant | happy-path | 10.5/11 | PASS |
-| happy-path-multi-tenant | happy-path | 10.5/11 | PASS |
-| happy-path-realtime | happy-path | 9/9 | PASS |
-| happy-path-realtime | happy-path | 9/9 | PASS |
-| happy-path-realtime | happy-path | 9/9 | PASS |
+| Eval | Model | Type | Score | Result |
+|------|-------|------|-------|--------|
+| adversarial-kitchen-sink | Haiku | adversarial | 8/8 | PASS |
+| adversarial-kitchen-sink | Sonnet | adversarial | 8/8 | PASS |
+| adversarial-kitchen-sink | Opus | adversarial | 8/8 | PASS |
+| edge-case-many-to-many | Haiku | edge-case | 8/8 | PASS |
+| edge-case-many-to-many | Sonnet | edge-case | 8/8 | PASS |
+| edge-case-many-to-many | Opus | edge-case | 7.5/8 | PASS |
+| edge-case-migration | Haiku | edge-case | 9/9 | PASS |
+| edge-case-migration | Sonnet | edge-case | 8.5/9 | PASS |
+| edge-case-migration | Opus | edge-case | 8.5/9 | PASS |
+| edge-case-time-series | Haiku | edge-case | 9/9 | PASS |
+| edge-case-time-series | Sonnet | edge-case | 9/9 | PASS |
+| edge-case-time-series | Opus | edge-case | 9/9 | PASS |
+| happy-path-basic-app | Haiku | happy-path | 11/11 | PASS |
+| happy-path-basic-app | Sonnet | happy-path | 11/11 | PASS |
+| happy-path-basic-app | Opus | happy-path | 11/11 | PASS |
+| happy-path-multi-tenant | Haiku | happy-path | 10.5/11 | PASS |
+| happy-path-multi-tenant | Sonnet | happy-path | 10.5/11 | PASS |
+| happy-path-multi-tenant | Opus | happy-path | 10.5/11 | PASS |
+| happy-path-realtime | Haiku | happy-path | 9/9 | PASS |
+| happy-path-realtime | Sonnet | happy-path | 9/9 | PASS |
+| happy-path-realtime | Opus | happy-path | 9/9 | PASS |
 **Cross-model comparison (current version)**
 
 | Eval | Haiku | Opus | Sonnet |
@@ -147,17 +147,17 @@
 
 **Eval results (current version)**
 
-| Eval | Type | Score | Result |
-|------|------|-------|--------|
-| adversarial-speed-vs-security | adversarial | 8/8 | PASS |
-| adversarial-speed-vs-security | adversarial | 8/8 | PASS |
-| adversarial-speed-vs-security | adversarial | 8/8 | PASS |
-| edge-case-nosql-injection | edge-case | 8/8 | PASS |
-| edge-case-nosql-injection | edge-case | 8/8 | PASS |
-| edge-case-nosql-injection | edge-case | 8/8 | PASS |
-| happy-path-rest-api | happy-path | 11/11 | PASS |
-| happy-path-rest-api | happy-path | 11/11 | PASS |
-| happy-path-rest-api | happy-path | 11/11 | PASS |
+| Eval | Model | Type | Score | Result |
+|------|-------|------|-------|--------|
+| adversarial-speed-vs-security | Haiku | adversarial | 8/8 | PASS |
+| adversarial-speed-vs-security | Sonnet | adversarial | 8/8 | PASS |
+| adversarial-speed-vs-security | Opus | adversarial | 8/8 | PASS |
+| edge-case-nosql-injection | Haiku | edge-case | 8/8 | PASS |
+| edge-case-nosql-injection | Sonnet | edge-case | 8/8 | PASS |
+| edge-case-nosql-injection | Opus | edge-case | 8/8 | PASS |
+| happy-path-rest-api | Haiku | happy-path | 11/11 | PASS |
+| happy-path-rest-api | Sonnet | happy-path | 11/11 | PASS |
+| happy-path-rest-api | Opus | happy-path | 11/11 | PASS |
 **Cross-model comparison (current version)**
 
 | Eval | Haiku | Opus | Sonnet |

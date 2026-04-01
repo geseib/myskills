@@ -1,3 +1,5 @@
+<!-- eval-version: v1 -->
+<!-- eval-notes: v1=Original criteria -->
 # Eval: Adversarial — too many access patterns
 
 **Skill:** `dynamodb-single-table`

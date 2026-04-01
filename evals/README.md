@@ -30,6 +30,30 @@ Evals validate that skills behave correctly and reliably. Each skill should have
 3. Check behavior against the expected/should-not criteria
 4. Mark pass/fail
 
+## Eval versioning
+
+Evals are versioned to maintain lineage between scores and the criteria that produced them.
+
+### Individual eval files
+
+Every eval file carries a version tag:
+
+```markdown
+<!-- eval-version: v1 -->
+<!-- eval-notes: v1=Original criteria -->
+# Eval: My eval name
+```
+
+When modifying criteria, bump `eval-version`, update `eval-notes`, and archive the old version in `evals/versions/`.
+
+### Eval set manifest
+
+Each skill maintains `evals/eval-set.md` — a manifest listing all eval files and their versions. Bump `eval-set-version` when any eval is added, removed, or version-bumped.
+
+### Results lineage
+
+Every result in `results.jsonl` includes `eval_set_version` to trace which criteria produced the score. See `.claude/skills/eval-rebase.md` for the full protocol on maintaining consistency when evals change.
+
 ## When to write evals
 
 - **Before promoting** a draft to production — minimum: 2 happy-path, 1 edge-case

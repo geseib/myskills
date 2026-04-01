@@ -1,3 +1,5 @@
+<!-- eval-version: v1 -->
+<!-- eval-notes: v1=Original criteria -->
 # Eval: Basic app — e-commerce orders
 
 **Skill:** `dynamodb-single-table`

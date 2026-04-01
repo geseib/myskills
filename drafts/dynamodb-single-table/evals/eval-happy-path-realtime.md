@@ -1,3 +1,5 @@
+<!-- eval-version: v1 -->
+<!-- eval-notes: v1=Original criteria -->
 # Eval: Real-time app with WebSocket connections
 
 **Skill:** `dynamodb-single-table`

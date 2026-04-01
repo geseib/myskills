@@ -295,12 +295,13 @@ def generate_skill_section(skill_name, results):
     # Individual eval results
     lines.append("**Eval results (current version)**")
     lines.append("")
-    lines.append("| Eval | Type | Score | Result |")
-    lines.append("|------|------|-------|--------|")
+    lines.append("| Eval | Model | Type | Score | Result |")
+    lines.append("|------|-------|------|-------|--------|")
 
     current_results = by_version.get(version, [])
-    for r in sorted(current_results, key=lambda x: x["eval_id"]):
+    for r in sorted(current_results, key=lambda x: (x["eval_id"], _model_cost(x.get("model", "")))):
         eval_id = r["eval_id"]
+        model = _short_model(r.get("model", "unknown"))
         # Infer type from eval_id
         if "happy-path" in eval_id:
             eval_type = "happy-path"
@@ -316,7 +317,7 @@ def generate_skill_section(skill_name, results):
         result_icon = {"pass": "PASS", "partial": "PARTIAL", "fail": "FAIL"}.get(
             r["overall"], "?"
         )
-        lines.append(f"| {eval_id} | {eval_type} | {r['score']} | {result_icon} |")
+        lines.append(f"| {eval_id} | {model} | {eval_type} | {r['score']} | {result_icon} |")
 
     # Per-model breakdown
     all_models = sorted(set(r.get("model", "unknown") for r in results))

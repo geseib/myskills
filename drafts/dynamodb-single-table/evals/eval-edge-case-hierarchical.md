@@ -1,3 +1,5 @@
+<!-- eval-version: v1 -->
+<!-- eval-notes: v1=Original criteria -->
 # Eval: Deep hierarchy with variable-depth queries
 
 **Skill:** `dynamodb-single-table`

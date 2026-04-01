@@ -1,3 +1,5 @@
+<!-- eval-version: v1 -->
+<!-- eval-notes: v1=Original criteria -->
 # Eval: IoT time-series with high write volume
 
 **Skill:** `dynamodb-single-table`

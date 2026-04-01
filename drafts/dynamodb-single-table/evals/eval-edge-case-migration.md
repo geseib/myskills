@@ -1,3 +1,5 @@
+<!-- eval-version: v1 -->
+<!-- eval-notes: v1=Original criteria -->
 # Eval: Existing relational schema migration
 
 **Skill:** `dynamodb-single-table`
