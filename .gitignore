@@ -11,3 +11,7 @@ Thumbs.db
 # Environment
 .env
 .env.local
+
+# Eval agent artifacts (temp code generated during evals)
+tmp-*/
+drafts/secure-blog-api/
