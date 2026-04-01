@@ -185,8 +185,11 @@ def generate_skill_section(skill_name, results):
             s = version_scores[ver]
             v_bar = "█" * (s["pct"] // 10) + "░" * (10 - s["pct"] // 10)
             models_str = ", ".join(sorted(s["models"]))
+            # Format scores as int when whole numbers
+            tn = int(s['total_num']) if s['total_num'] == int(s['total_num']) else s['total_num']
+            td = int(s['total_denom']) if s['total_denom'] == int(s['total_denom']) else s['total_denom']
             lines.append(
-                f"| `{ver}` | {s['date']} | {s['total_num']}/{s['total_denom']} | {v_bar} {s['pct']}% | {s['count']} | {models_str} |"
+                f"| `{ver}` | {s['date']} | {tn}/{td} | {v_bar} {s['pct']}% | {s['count']} | {models_str} |"
             )
         lines.append("")
 
@@ -250,36 +253,69 @@ def generate_skill_section(skill_name, results):
         lines.append(f"| **Total** | {' | '.join(cells)} |")
         lines.append("")
 
-    # Baseline comparison
+    # Skill Impact — does the skill help?
     if baseline_results:
-        lines.append("**Baseline comparison (no skill loaded)**")
+        lines.append("**Skill impact: With Skill vs Without Skill (Baseline)**")
+        lines.append("")
+        lines.append("*Baseline = same prompt, same model, no skill loaded. Shows whether the skill actually helps.*")
         lines.append("")
 
-        # Group baselines by model if multi-model
         if len(all_models) > 1:
-            lines.append(f"| Eval | Model | With Skill | Baseline | Delta |")
-            lines.append(f"|------|-------|-----------|----------|-------|")
+            # Summary table: one row per model showing overall with/without
+            lines.append("| Model | With Skill | Without Skill | Skill Impact |")
+            lines.append("|-------|-----------|---------------|-------------|")
+
+            for model in all_models:
+                model_baseline = [r for r in baseline_results if r.get("model") == model]
+                model_skill = [r for r in current_results if r.get("model") == model]
+
+                if model_baseline:
+                    # Only compare evals that have both skill and baseline
+                    bl_by_eval = {r["eval_id"]: r for r in model_baseline}
+                    sk_num = sk_den = bl_num = bl_den = 0
+                    for eval_id, bl in bl_by_eval.items():
+                        sk_match = [r for r in model_skill if r["eval_id"] == eval_id]
+                        if sk_match:
+                            sn, sd = parse_score(sk_match[0]["score"])
+                            bn, bd = parse_score(bl["score"])
+                            sk_num += sn; sk_den += sd
+                            bl_num += bn; bl_den += bd
+
+                    sk_pct = round(sk_num / sk_den * 100) if sk_den else 0
+                    bl_pct = round(bl_num / bl_den * 100) if bl_den else 0
+                    diff = sk_pct - bl_pct
+                    arrow = "+" if diff > 0 else ""
+                    impact = f"{arrow}{diff}%" if diff != 0 else "="
+                    lines.append(f"| {_short_model(model)} | {sk_pct}% | {bl_pct}% | {impact} |")
+                else:
+                    lines.append(f"| {_short_model(model)} | — | — | — |")
+
+            lines.append("")
+
+            # Detailed breakdown
+            lines.append("<details>")
+            lines.append("<summary>Per-eval baseline details</summary>")
+            lines.append("")
+            lines.append("| Eval | Model | With Skill | Without Skill | Delta |")
+            lines.append("|------|-------|-----------|---------------|-------|")
 
             for model in all_models:
                 model_baseline = [r for r in baseline_results if r.get("model") == model]
                 model_skill = [r for r in current_results if r.get("model") == model]
                 bl_by_eval = {r["eval_id"]: r for r in model_baseline}
                 sk_by_eval = {r["eval_id"]: r for r in model_skill}
-                all_bl_evals = sorted(set(list(bl_by_eval.keys()) + list(sk_by_eval.keys())))
 
-                for eval_id in all_bl_evals:
+                for eval_id in sorted(bl_by_eval.keys()):
                     sk = sk_by_eval.get(eval_id)
                     bl = bl_by_eval.get(eval_id)
-                    if not bl:
-                        continue  # Only show evals that have a baseline
                     sk_score = sk["score"] if sk else "—"
                     bl_score = bl["score"] if bl else "—"
 
                     if sk and bl:
-                        sk_num, sk_den = parse_score(sk["score"])
-                        bl_num, bl_den = parse_score(bl["score"])
-                        sk_pct = round(sk_num / sk_den * 100) if sk_den else 0
-                        bl_pct = round(bl_num / bl_den * 100) if bl_den else 0
+                        sk_n, sk_d = parse_score(sk["score"])
+                        bl_n, bl_d = parse_score(bl["score"])
+                        sk_pct = round(sk_n / sk_d * 100) if sk_d else 0
+                        bl_pct = round(bl_n / bl_d * 100) if bl_d else 0
                         diff = sk_pct - bl_pct
                         arrow = "+" if diff > 0 else ""
                         delta_str = f"{arrow}{diff}%" if diff != 0 else "="
@@ -287,9 +323,12 @@ def generate_skill_section(skill_name, results):
                         delta_str = "—"
 
                     lines.append(f"| {eval_id} | {_short_model(model)} | {sk_score} | {bl_score} | {delta_str} |")
+
+            lines.append("")
+            lines.append("</details>")
         else:
-            lines.append("| Eval | With Skill | Baseline | Delta |")
-            lines.append("|------|-----------|----------|-------|")
+            lines.append("| Eval | With Skill | Without Skill | Delta |")
+            lines.append("|------|-----------|---------------|-------|")
 
             baseline_by_eval = {r["eval_id"]: r for r in baseline_results}
             skill_by_eval = {r["eval_id"]: r for r in current_results}
@@ -304,10 +343,10 @@ def generate_skill_section(skill_name, results):
                 bl_score = bl["score"] if bl else "—"
 
                 if sk and bl:
-                    sk_num, sk_den = parse_score(sk["score"])
-                    bl_num, bl_den = parse_score(bl["score"])
-                    sk_pct = round(sk_num / sk_den * 100) if sk_den else 0
-                    bl_pct = round(bl_num / bl_den * 100) if bl_den else 0
+                    sk_n, sk_d = parse_score(sk["score"])
+                    bl_n, bl_d = parse_score(bl["score"])
+                    sk_pct = round(sk_n / sk_d * 100) if sk_d else 0
+                    bl_pct = round(bl_n / bl_d * 100) if bl_d else 0
                     diff = sk_pct - bl_pct
                     arrow = "+" if diff > 0 else ""
                     delta_str = f"{arrow}{diff}%" if diff != 0 else "="
@@ -349,7 +388,7 @@ def generate_dashboard():
     lines.append("## Overview")
     lines.append("")
     lines.append(
-        "| Skill | Status | Version | Rating | Evals | vs Baseline |"
+        "| Skill | Status | Version | Rating | Evals | Skill Impact |"
     )
     lines.append(
         "|-------|--------|---------|--------|-------|-------------|"
@@ -409,9 +448,12 @@ def generate_dashboard():
     # Footer
     lines.append("## How to read this dashboard")
     lines.append("")
-    lines.append("- **Rating** = percentage of eval criteria passed across all eval cases")
+    lines.append("- **Rating** = percentage of eval criteria passed across all eval cases (all models combined)")
     lines.append(
-        "- **vs Baseline** = difference between skill-loaded and no-skill performance"
+        "- **Skill Impact** = does the skill help? Compares with-skill vs without-skill (baseline) on the same model and evals"
+    )
+    lines.append(
+        "- **Cross-model comparison** = how each model performs WITH the skill loaded"
     )
     lines.append(
         "- **vs Previous** = rating change from the prior skill version"
