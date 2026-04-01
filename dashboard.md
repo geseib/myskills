@@ -1,6 +1,6 @@
 # Skills Dashboard
 
-*Last generated: 2026-04-01 12:35 UTC*
+*Last generated: 2026-04-01 12:45 UTC*
 
 ## Overview
 
@@ -8,6 +8,7 @@
 |-------|--------|---------|--------|-------|-------------|
 | [dynamodb-single-table](#dynamodb-single-table) | `draft` | `v2` | █████████░ 93% | 8 | -6% |
 | [nodejs-security](#nodejs-security) | `draft` | `v1` | ██████████ 100% | 8 | +8% |
+| [eval-methodology](#eval-methodology) | `draft` | `v1` | ░░░░░░░░░░ 0% | 0 | — |
 
 ## Skill Details
 
@@ -21,6 +22,7 @@
 | **Eval cases** | 8 |
 | **Rating** | █████████░ **93%** |
 | **vs previous** | -4% |
+| **Coverage** | ⚠️ Missing 3 eval(s) vs `v1`: edge-case-many-to-many, edge-case-time-series, happy-path-realtime |
 | **vs baseline** | -6% (baseline=99%) |
 
 **Version notes**
@@ -33,8 +35,8 @@
 | Version | Model | Score | Rating | Evals | Best? |
 |---------|-------|-------|--------|-------|-------|
 | `v1` | Haiku | 59/65 | █████████░ 91% | 7 |  |
-| `v1` | Opus | 65/65 | ██████████ 100% | 7 | ⭐ |
-| `v1` | Sonnet | 65/65 | ██████████ 100% | 7 |  |
+| `v1` | Opus | 65/65 | ██████████ 100% | 7 |  |
+| `v1` | Sonnet | 65/65 | ██████████ 100% | 7 | ⭐ |
 | `v2` | Haiku | 34.5/39 | ████████░░ 88% | 4 |  |
 | `v2` | Opus | 8/8 | ██████████ 100% | 1 |  |
 | `v2` | Sonnet | 17/17 | ██████████ 100% | 2 |  |
@@ -177,6 +179,27 @@
 | happy-path-rest-api | Sonnet | 11/11 | 11/11 | = |
 
 </details>
+
+---
+
+### Eval Methodology
+
+| | |
+|---|---|
+| **Status** | `draft` |
+| **Version** | `v1` |
+| **Last eval** | n/a |
+| **Eval cases** | 0 |
+| **Rating** | ░░░░░░░░░░ **0%** |
+
+**Version notes**
+
+- `v1`: Initial methodology for fair skill evaluation and accurate dashboard results
+
+**Eval results (current version)**
+
+| Eval | Type | Score | Result |
+|------|------|-------|--------|
 
 ---
 

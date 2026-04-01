@@ -125,6 +125,13 @@ For each model, run:
 1. **With skill** — all eval cases (model reads skill.md, then responds to the prompt)
 2. **Baseline** (without skill) — 3 representative evals (1 happy-path, 1 edge-case, 1 adversarial) to measure native model capability
 
+**CRITICAL: Separate generation from grading.** See `drafts/eval-methodology/skill.md` for the full protocol. Key rules:
+
+- **Generation prompt must NOT include eval criteria.** If the model sees "SELF-EVALUATE against: 1. uses Zod, 2. uses helmet..." it will treat the criteria as requirements and inflate scores. Send only the task prompt.
+- **Grade in a separate pass.** After the model generates code, evaluate the output against criteria in a separate agent/conversation. The grader reads the generated code and scores it — the generator never sees the rubric.
+- **Version comparisons require complete coverage.** If v1 ran 7 evals, v2 must run the same 7 evals before comparing. The dashboard will flag incomplete coverage with ⚠️.
+- **Cost-aware tiebreaking.** When models score equally, the cheaper model gets the ⭐ (score first, cost as tiebreaker).
+
 ### Phase 4: Record results
 
 Append results to `eval-results/<skill-name>/results.jsonl`:

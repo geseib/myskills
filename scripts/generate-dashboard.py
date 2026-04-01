@@ -203,6 +203,20 @@ def generate_skill_section(skill_name, results):
         arrow = "+" if delta > 0 else ""
         lines.append(f"| **vs previous** | {arrow}{delta}% |")
 
+    # Check if current version has incomplete eval coverage vs previous
+    sorted_versions = sorted(version_scores.keys())
+    if len(sorted_versions) >= 2 and version in sorted_versions:
+        idx = sorted_versions.index(version)
+        if idx > 0:
+            prev_ver = sorted_versions[idx - 1]
+            prev_evals = set(r["eval_id"] for r in by_version[prev_ver])
+            curr_evals = set(r["eval_id"] for r in by_version[version])
+            missing = prev_evals - curr_evals
+            if missing:
+                lines.append(
+                    f"| **Coverage** | ⚠️ Missing {len(missing)} eval(s) vs `{prev_ver}`: {', '.join(sorted(missing))} |"
+                )
+
     if baseline_pct is not None:
         diff = current_pct - baseline_pct
         arrow = "+" if diff > 0 else ""
@@ -228,6 +242,7 @@ def generate_skill_section(skill_name, results):
 
         # Calculate per-version per-model scores
         best_overall_pct = 0
+        best_overall_cost = 999
         best_overall_key = None
         version_model_scores = {}
 
@@ -244,8 +259,10 @@ def generate_skill_section(skill_name, results):
                 m_pct = round(m_num / m_den * 100) if m_den > 0 else 0
                 version_model_scores[(ver, model)] = m_pct
 
-                if m_pct > best_overall_pct:
+                cost = _model_cost(model)
+                if m_pct > best_overall_pct or (m_pct == best_overall_pct and cost < best_overall_cost):
                     best_overall_pct = m_pct
+                    best_overall_cost = cost
                     best_overall_key = (ver, model)
 
         # Find best version per model and best model per version
