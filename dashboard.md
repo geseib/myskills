@@ -1,12 +1,12 @@
 # Skills Dashboard
 
-*Last generated: 2026-04-01 12:56 UTC*
+*Last generated: 2026-04-01 13:08 UTC*
 
 ## Overview
 
 | Skill | Status | Version | Rating | Evals | Skill Impact |
 |-------|--------|---------|--------|-------|-------------|
-| [dynamodb-single-table](#dynamodb-single-table) | `draft` | `v2` | █████████░ 93% | 8 | -6% |
+| [dynamodb-single-table](#dynamodb-single-table) | `draft` | `v3` | █████████░ 98% | 8 | -1% |
 | [nodejs-security](#nodejs-security) | `draft` | `v1` | ██████████ 100% | 8 | +8% |
 
 ## Skill Details
@@ -16,18 +16,18 @@
 | | |
 |---|---|
 | **Status** | `draft` |
-| **Version** | `v2` |
+| **Version** | `v3` |
 | **Last eval** | 2026-04-01 |
 | **Eval cases** | 8 |
-| **Rating** | █████████░ **93%** |
-| **vs previous** | -4% |
-| **Coverage** | ⚠️ Missing 3 eval(s) vs `v1`: edge-case-many-to-many, edge-case-time-series, happy-path-realtime |
-| **vs baseline** | -6% (baseline=99%) |
+| **Rating** | █████████░ **98%** |
+| **vs previous** | +5% |
+| **vs baseline** | -1% (baseline=99%) |
 
 **Version notes**
 
 - `v1`: Initial skill with core patterns and examples
 - `v2`: Added feed fanout, migration guidance, denormalization tradeoffs
+- `v3`: Condensed for smaller models — rules over examples, removed verbose patterns
 
 **Version history (per model)**
 
@@ -36,39 +36,46 @@
 | `v1` | Haiku | 59/65 | █████████░ 91% | 7 |  |
 | `v1` | Opus | 65/65 | ██████████ 100% | 7 |  |
 | `v1` | Sonnet | 65/65 | ██████████ 100% | 7 | ⭐ |
-| `v2` | Haiku | 34.5/39 | ████████░░ 88% | 4 |  |
-| `v2` | Opus | 8/8 | ██████████ 100% | 1 |  |
-| `v2` | Sonnet | 17/17 | ██████████ 100% | 2 |  |
+| `v2` | Haiku | 58.5/65 | █████████░ 90% | 7 |  |
+| `v2` | Opus | 34/34 | ██████████ 100% | 4 |  |
+| `v2` | Sonnet | 39/43 | █████████░ 91% | 5 |  |
+| `v3` | Sonnet | 64/65 | █████████░ 98% | 7 |  |
 
 **Eval results (current version)**
 
 | Eval | Type | Score | Result |
 |------|------|-------|--------|
-| adversarial-kitchen-sink | adversarial | 7/8 | PASS |
 | adversarial-kitchen-sink | adversarial | 8/8 | PASS |
-| adversarial-kitchen-sink | adversarial | 8/8 | PASS |
-| edge-case-migration | edge-case | 8/9 | PARTIAL |
-| edge-case-migration | edge-case | 9/9 | PASS |
+| edge-case-many-to-many | edge-case | 8/8 | PASS |
+| edge-case-migration | edge-case | 8.5/9 | PASS |
+| edge-case-time-series | edge-case | 9/9 | PASS |
 | happy-path-basic-app | happy-path | 11/11 | PASS |
-| happy-path-multi-tenant | happy-path | 8.5/11 | PARTIAL |
+| happy-path-multi-tenant | happy-path | 10.5/11 | PASS |
+| happy-path-realtime | happy-path | 9/9 | PASS |
 **Cross-model comparison (current version)**
 
 | Eval | Haiku | Opus | Sonnet |
 |------|-----|-----|-----|
-| adversarial-kitchen-sink | 7/8 | 8/8 | 8/8 |
-| edge-case-migration | 8/9 | — | 9/9 |
-| happy-path-basic-app | 11/11 | — | — |
-| happy-path-multi-tenant | 8.5/11 | — | — |
-| **Total** | **88%** | **100%** | **100%** |
+| adversarial-kitchen-sink | — | — | 8/8 |
+| edge-case-many-to-many | — | — | 8/8 |
+| edge-case-migration | — | — | 8.5/9 |
+| edge-case-time-series | — | — | 9/9 |
+| happy-path-basic-app | — | — | 11/11 |
+| happy-path-multi-tenant | — | — | 10.5/11 |
+| happy-path-realtime | — | — | 9/9 |
+| **Total** | — | — | **98%** |
 
 **Best for task** *(highest score, cheapest model as tiebreaker)*
 
 | Eval | Best Model | Score | Why |
 |------|-----------|-------|-----|
-| adversarial-kitchen-sink | **Sonnet** | 8/8 | Highest score at lowest cost |
-| edge-case-migration | **Sonnet** | 9/9 | Highest score at lowest cost |
-| happy-path-basic-app | **Haiku** | 11/11 | All models score 100%; Haiku is cheapest |
-| happy-path-multi-tenant | **Haiku** | 8.5/11 | Highest score at lowest cost |
+| adversarial-kitchen-sink | **Sonnet** | 8/8 | All models score 100%; Sonnet is cheapest |
+| edge-case-many-to-many | **Sonnet** | 8/8 | All models score 100%; Sonnet is cheapest |
+| edge-case-migration | **Sonnet** | 8.5/9 | Highest score at lowest cost |
+| edge-case-time-series | **Sonnet** | 9/9 | All models score 100%; Sonnet is cheapest |
+| happy-path-basic-app | **Sonnet** | 11/11 | All models score 100%; Sonnet is cheapest |
+| happy-path-multi-tenant | **Sonnet** | 10.5/11 | Highest score at lowest cost |
+| happy-path-realtime | **Sonnet** | 9/9 | All models score 100%; Sonnet is cheapest |
 
 **Skill impact: With Skill vs Without Skill (Baseline)**
 
@@ -76,24 +83,24 @@
 
 | Model | With Skill | Without Skill | Skill Impact |
 |-------|-----------|---------------|-------------|
-| Haiku | 88% | 100% | -12% |
-| Opus | 100% | 100% | = |
-| Sonnet | 100% | 100% | = |
+| Haiku | 0% | 0% | = |
+| Opus | 0% | 0% | = |
+| Sonnet | 98% | 98% | = |
 
 <details>
 <summary>Per-eval baseline details</summary>
 
 | Eval | Model | With Skill | Without Skill | Delta |
 |------|-------|-----------|---------------|-------|
-| adversarial-kitchen-sink | Haiku | 7/8 | 8/8 | -12% |
-| happy-path-basic-app | Haiku | 11/11 | 11/11 | = |
-| happy-path-multi-tenant | Haiku | 8.5/11 | 11/11 | -23% |
-| adversarial-kitchen-sink | Opus | 8/8 | 8/8 | = |
+| adversarial-kitchen-sink | Haiku | — | 8/8 | — |
+| happy-path-basic-app | Haiku | — | 11/11 | — |
+| happy-path-multi-tenant | Haiku | — | 11/11 | — |
+| adversarial-kitchen-sink | Opus | — | 8/8 | — |
 | happy-path-basic-app | Opus | — | 11/11 | — |
 | happy-path-multi-tenant | Opus | — | 11/11 | — |
 | adversarial-kitchen-sink | Sonnet | 8/8 | 8/8 | = |
-| happy-path-basic-app | Sonnet | — | 11/11 | — |
-| happy-path-multi-tenant | Sonnet | — | 10.5/11 | — |
+| happy-path-basic-app | Sonnet | 11/11 | 11/11 | = |
+| happy-path-multi-tenant | Sonnet | 10.5/11 | 10.5/11 | = |
 
 </details>
 
