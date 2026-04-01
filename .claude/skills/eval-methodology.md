@@ -117,7 +117,7 @@ Per model being compared.
 ## Anti-patterns
 
 1. **Criteria in generation prompt** — leaks the rubric, inflates baseline scores
-2. **Partial version coverage** — comparing v2 (4 evals) to v1 (7 evals) is misleading
+2. **Partial version coverage** — comparing v2 (4 evals) to v1 (7 evals) is misleading. See `eval-rebase.md` for the protocol when evals change
 3. **Single-model testing** — can't claim a skill "works" from one model's results
 4. **Self-grading** — the model grading its own output tends to be generous; use separate grading
 5. **Ignoring cost** — a skill that only helps Opus isn't useful if Haiku can do it natively
