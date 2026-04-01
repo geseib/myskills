@@ -17,6 +17,9 @@ templates/               # Starter templates for new skills
   basic/                 # Minimal skill scaffold
   user-invocable/        # For slash-command style skills
   auto-trigger/          # For context-triggered skills
+eval-results/            # Eval result data (JSONL per skill)
+  <skill-name>/
+    results.jsonl        # Append-only log of all eval runs
 catalog.md               # Index of all production skills with tags and summaries
 dashboard.md             # Auto-generated eval dashboard (run scripts/generate-dashboard.py)
 scripts/
@@ -81,12 +84,97 @@ To use a skill from this repo in another project, add to that project's `.claude
 
 And reference it in the project's CLAUDE.md or `.claude/skills/` directory.
 
+## Skill development process
+
+This is the end-to-end workflow for building, evaluating, and shipping a skill. Follow these steps in order.
+
+### Phase 1: Create the skill
+
+1. **Scaffold** — create `drafts/<skill-name>/` with `skill.md`, `README.md`, and `evals/`
+2. **Write skill.md** with this structure:
+   - `<!-- skill-version: v1 -->` frontmatter tag at the top
+   - Clear trigger conditions (when to use / when not to use)
+   - **Ordered methodology** — a step-by-step process the model must follow (e.g., "Step 1: Threat model FIRST"). This is where skills add the most value — enforcing a consistent methodology that smaller models skip.
+   - Concrete code patterns with CORRECT and WRONG examples
+   - Anti-patterns to avoid (numbered list)
+   - Required output format
+3. **Write README.md** — purpose, key principles, sources/influences, eval case summary
+
+### Phase 2: Write eval cases
+
+Create eval files in `drafts/<skill-name>/evals/eval-<type>-<name>.md`:
+
+- **happy-path** evals (2-3): straightforward tasks the skill should ace on all models
+- **edge-case** evals (3-4): nuanced scenarios that test specific skill patterns
+- **adversarial** evals (1-2): prompts that tempt the model to skip the methodology
+
+Each eval has: prompt, expected behavior (checkbox criteria), "should NOT" list, pass criteria summary.
+
+### Phase 3: Run multi-model evals
+
+Run evals across **three model tiers** to measure where the skill adds value:
+
+| Model | Purpose |
+|-------|---------|
+| Opus | Ceiling — should score 100% with or without skill |
+| Sonnet | Main target — skill should help on edge cases |
+| Haiku | Floor — skill should show the most contrast vs baseline |
+
+For each model, run:
+1. **With skill** — all eval cases (model reads skill.md, then responds to the prompt)
+2. **Baseline** (without skill) — 3 representative evals (1 happy-path, 1 edge-case, 1 adversarial) to measure native model capability
+
+### Phase 4: Record results
+
+Append results to `eval-results/<skill-name>/results.jsonl`:
+
+```json
+{
+  "eval_id": "happy-path-rest-api",
+  "run_id": "2026-04-01T12:00:00Z",
+  "skill_version": "v1",
+  "skill_commit": "abc1234",
+  "model": "claude-sonnet-4-6",
+  "with_skill": true,
+  "score": "9/11",
+  "overall": "pass",
+  "notes": "Missed rate limiting on one endpoint."
+}
+```
+
+Fields: `eval_id`, `run_id` (ISO timestamp), `skill_version` (from frontmatter or "baseline"), `skill_commit`, `model`, `with_skill` (true/false), `score` (X/Y), `overall` (pass/partial/fail), `notes`.
+
+### Phase 5: Regenerate dashboard
+
+```bash
+python3 scripts/generate-dashboard.py
+```
+
+This reads all `eval-results/*/results.jsonl` files and generates `dashboard.md` with:
+- Overview table (skill, status, version, rating, eval count, vs baseline)
+- Per-skill sections with version history, individual eval results
+- **Cross-model comparison table** (Opus vs Sonnet vs Haiku scores per eval)
+- Baseline comparison (with-skill vs without-skill per model)
+
+### Phase 6: Iterate or promote
+
+- If scores are low → revise `skill.md`, bump version tag (`v2`), re-run evals
+- If passing on all models → promote from `drafts/` to `skills/`, add to `catalog.md`
+- Version history is automatically tracked in the dashboard
+
+### Versioning
+
+- Version tag in `skill.md` frontmatter: `<!-- skill-version: v1 -->`
+- Bump version when changing the skill content, then re-run evals
+- Results JSONL captures `skill_version` per result — dashboard shows trends across versions
+- Never delete old results — they form the version history
+
 ## Working in this repo
 
-- When asked to **create** a skill: scaffold in `drafts/` using a template
-- When asked to **import** a skill: place in `drafts/`, adapt for personal conventions
-- When asked to **eval** a skill: run its eval cases, report pass/fail
+- When asked to **create** a skill: follow Phase 1-2 above
+- When asked to **eval** a skill: follow Phase 3-5 above
+- When asked to **import** a skill: place in `drafts/`, adapt format, then eval
 - When asked to **promote** a skill: move from `drafts/` to `skills/`, update `catalog.md`
 - When asked to **deploy** a skill to a project: provide the settings.json config or copy instructions
 - When asked to **dashboard** or show skill status: run `python3 scripts/generate-dashboard.py` then show dashboard.md
-- After running evals: append results to `eval-results/<skill>/results.jsonl` and regenerate the dashboard
+- After running evals: always append results to `eval-results/<skill>/results.jsonl` and regenerate the dashboard
