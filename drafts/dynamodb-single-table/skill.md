@@ -1,4 +1,4 @@
-<!-- skill-version: v1 -->
+<!-- skill-version: v2 -->
 # DynamoDB Single Table Design
 
 Design DynamoDB tables using single table design patterns that are efficient, simple, and eliminate the need for multiple tables or database types.
@@ -55,6 +55,18 @@ PK = GAME#1234           SK = STATE
 - SK enables range queries — structure it for `begins_with`, `between`, and comparison operators
 - Co-locate related items under the same PK so a single Query can fetch them together
 - Composite sort keys encode hierarchy: `SK = DEPT#engineering#TEAM#backend#EMP#alice`
+
+### Step 2b: Identify patterns that DON'T belong in DynamoDB
+
+Before designing GSIs, group related access patterns and flag any that are a poor fit for DynamoDB:
+
+**Patterns that need complementary services:**
+- **Full-text search** (substring, fuzzy, faceted) → OpenSearch (use zero-ETL integration)
+- **Aggregations** (trending, top-N, analytics) → OpenSearch or Redshift (use zero-ETL)
+- **Fan-out feeds** (social feeds, activity streams) → consider fan-out-on-write with Streams, or cache with ElastiCache
+- **Caching hot reads** (leaderboards, session data) → ElastiCache/DAX
+
+**Always state explicitly** which patterns you're handling in DynamoDB vs which need other services. Don't force everything into one table.
 
 ### Step 3: Design GSIs (only as needed)
 
@@ -138,6 +150,36 @@ GAME#1234       VOTE#001#PLAYER#marco       Player's vote on question
 SET#trivia-1    CAT#science                 Question set category
 ```
 All game data under one PK — single Query fetches everything for a game.
+
+### Social feed / fan-out pattern
+When a user's feed must show content from people they follow:
+- **Fan-out-on-write:** When User A posts, write a copy to every follower's feed partition. Fast reads, expensive writes. Works when follower counts are bounded.
+- **Fan-out-on-read:** At read time, query each followed user's posts and merge. Cheap writes, expensive reads. Works for celebrity accounts (millions of followers).
+- **Hybrid:** Fan-out-on-write for normal users, fan-out-on-read for celebrities. Use DynamoDB Streams to trigger the fan-out asynchronously.
+
+This is an inherently hard problem. **Always discuss the tradeoff explicitly** — don't pretend a single DynamoDB query solves it.
+
+### Denormalization trade-offs
+
+When you denormalize (duplicate data to avoid extra reads), always warn about:
+- **Update complexity:** If the duplicated field changes, you must update every copy. Use DynamoDB Streams + Lambda for async propagation.
+- **Storage cost:** Minimal concern — DynamoDB storage is cheap (~$0.25/GB/month).
+- **Consistency window:** During propagation, copies may be temporarily stale. Acceptable for most use cases (eventual consistency).
+- **When NOT to denormalize:** If the data changes frequently (e.g., price that updates hourly), keep it normalized and do an extra read.
+
+### Migrating from relational databases
+
+When converting from SQL tables to DynamoDB single table:
+
+1. **Don't map tables 1:1** — collapse related SQL tables into one DynamoDB table
+2. **Identify JOIN patterns** — every SQL JOIN becomes either co-location (same PK) or a GSI
+3. **Denormalize aggressively** — copy parent data onto child items (e.g., org name on every user item)
+4. **Address what changes:**
+   - No more ad-hoc queries — every query must be planned in advance
+   - No more JOINs — replaced by denormalization and co-location
+   - No more foreign key constraints — application must enforce referential integrity
+   - Schema flexibility — each item can have different attributes
+5. **Migration approach:** Run DynamoDB in parallel with SQL during transition. Use DMS or custom ETL. Validate data completeness before cutting over.
 
 ## Table configuration defaults
 
