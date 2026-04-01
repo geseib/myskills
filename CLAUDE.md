@@ -18,6 +18,9 @@ templates/               # Starter templates for new skills
   user-invocable/        # For slash-command style skills
   auto-trigger/          # For context-triggered skills
 catalog.md               # Index of all production skills with tags and summaries
+dashboard.md             # Auto-generated eval dashboard (run scripts/generate-dashboard.py)
+scripts/
+  generate-dashboard.py  # Reads eval-results/ JSONL, outputs dashboard.md
 ```
 
 ## Skill lifecycle
@@ -85,3 +88,5 @@ And reference it in the project's CLAUDE.md or `.claude/skills/` directory.
 - When asked to **eval** a skill: run its eval cases, report pass/fail
 - When asked to **promote** a skill: move from `drafts/` to `skills/`, update `catalog.md`
 - When asked to **deploy** a skill to a project: provide the settings.json config or copy instructions
+- When asked to **dashboard** or show skill status: run `python3 scripts/generate-dashboard.py` then show dashboard.md
+- After running evals: append results to `eval-results/<skill>/results.jsonl` and regenerate the dashboard
