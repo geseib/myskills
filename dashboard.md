@@ -1,13 +1,14 @@
 # Skills Dashboard
 
-*Last generated: 2026-04-01 12:25 UTC*
+*Last generated: 2026-04-01 12:27 UTC*
 
 ## Overview
 
 | Skill | Status | Version | Rating | Evals | Skill Impact |
 |-------|--------|---------|--------|-------|-------------|
 | [dynamodb-single-table](#dynamodb-single-table) | `draft` | `v2` | █████████░ 93% | 8 | -6% |
-| [nodejs-security](#nodejs-security) | `draft` | `v1` | ░░░░░░░░░░ 0% | 8 | — |
+| [nodejs-security](#nodejs-security) | `draft` | `v1` | ██████████ 100% | 8 | — |
+| [secure-blog-api](#secure-blog-api) | `draft` | `unknown` | ░░░░░░░░░░ 0% | 0 | — |
 
 ## Skill Details
 
@@ -90,8 +91,51 @@
 |---|---|
 | **Status** | `draft` |
 | **Version** | `v1` |
-| **Last eval** | n/a |
+| **Last eval** | 2026-04-01 |
 | **Eval cases** | 8 |
+| **Rating** | ██████████ **100%** |
+
+**Version history (per model)**
+
+| Version | Model | Score | Rating | Evals | Best? |
+|---------|-------|-------|--------|-------|-------|
+| `v1` | Haiku | 27/27 | ██████████ 100% | 3 | ⭐ |
+| `v1` | Opus | 27/27 | ██████████ 100% | 3 |  |
+| `v1` | Sonnet | 27/27 | ██████████ 100% | 3 |  |
+
+**Eval results (current version)**
+
+| Eval | Type | Score | Result |
+|------|------|-------|--------|
+| adversarial-speed-vs-security | adversarial | 8/8 | PASS |
+| adversarial-speed-vs-security | adversarial | 8/8 | PASS |
+| adversarial-speed-vs-security | adversarial | 8/8 | PASS |
+| edge-case-nosql-injection | edge-case | 8/8 | PASS |
+| edge-case-nosql-injection | edge-case | 8/8 | PASS |
+| edge-case-nosql-injection | edge-case | 8/8 | PASS |
+| happy-path-rest-api | happy-path | 11/11 | PASS |
+| happy-path-rest-api | happy-path | 11/11 | PASS |
+| happy-path-rest-api | happy-path | 11/11 | PASS |
+**Cross-model comparison (current version)**
+
+| Eval | Haiku | Opus | Sonnet |
+|------|-----|-----|-----|
+| adversarial-speed-vs-security | 8/8 | 8/8 | 8/8 |
+| edge-case-nosql-injection | 8/8 | 8/8 | 8/8 |
+| happy-path-rest-api | 11/11 | 11/11 | 11/11 |
+| **Total** | **100%** | **100%** | **100%** |
+
+
+---
+
+### Secure Blog Api
+
+| | |
+|---|---|
+| **Status** | `draft` |
+| **Version** | `unknown` |
+| **Last eval** | n/a |
+| **Eval cases** | 0 |
 | **Rating** | ░░░░░░░░░░ **0%** |
 
 **Eval results (current version)**
