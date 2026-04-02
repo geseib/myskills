@@ -1,15 +1,60 @@
 # Skills Dashboard
 
-*Last generated: 2026-04-02 14:00 UTC*
+*Last generated: 2026-04-02 23:26 UTC*
 
 ## Overview
 
 | Skill | Status | Version | Rating | Evals | Skill Impact |
 |-------|--------|---------|--------|-------|-------------|
+| [csv-to-excel-report](#csv-to-excel-report) | `draft` | `v1` | █████████░ 95% | 6 | +76% |
 | [dynamodb-single-table](#dynamodb-single-table) | `draft` | `v3` | █████████░ 98% | 9 | -1% |
 | [nodejs-security](#nodejs-security) | `draft` | `v1` | █████████░ 96% | 9 | +18% |
 
 ## Skill Details
+
+### Csv To Excel Report
+
+| | |
+|---|---|
+| **Status** | `draft` |
+| **Version** | `v1` |
+| **Last eval** | 2026-04-02 |
+| **Eval cases** | 6 |
+| **Rating** | █████████░ **95%** |
+| **vs baseline** | +76% (baseline=19%) |
+
+**Version notes**
+
+- `v1`: Initial skill with 7-step methodology, openpyxl styling, sample data
+
+**Version history (per model)**
+
+| Version | Model | Score | Rating | Evals | Best? |
+|---------|-------|-------|--------|-------|-------|
+| `v1` | Sonnet | 42/44 | █████████░ 95% | 5 | ⭐ |
+
+**Eval results (current version)**
+
+| Eval | Model | Type | Score | Result |
+|------|-------|------|-------|--------|
+| adversarial-wrong-columns | Sonnet | adversarial | 6/8 | PASS |
+| edge-case-large-dataset | Sonnet | edge-case | 7/7 | PASS |
+| edge-case-missing-targets | Sonnet | edge-case | 8/8 | PASS |
+| happy-path-basic | Sonnet | happy-path | 10/10 | PASS |
+| happy-path-formatting | Sonnet | happy-path | 11/11 | PASS |
+**Skill impact: With Skill vs Without Skill (Baseline)**
+
+*Baseline = same prompt, same model, no skill loaded. Shows whether the skill actually helps.*
+
+| Eval | With Skill | Without Skill | Delta |
+|------|-----------|---------------|-------|
+| adversarial-wrong-columns | 6/8 | 0/8 | +75% |
+| edge-case-large-dataset | 7/7 | — | — |
+| edge-case-missing-targets | 8/8 | 0/8 | +100% |
+| happy-path-basic | 10/10 | 5/10 | +50% |
+| happy-path-formatting | 11/11 | — | — |
+
+---
 
 ### Dynamodb Single Table
 
