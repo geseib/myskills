@@ -1,6 +1,6 @@
 # Skills Dashboard
 
-*Last generated: 2026-04-02 23:26 UTC*
+*Last generated: 2026-04-02 23:46 UTC*
 
 ## Overview
 
@@ -21,7 +21,7 @@
 | **Last eval** | 2026-04-02 |
 | **Eval cases** | 6 |
 | **Rating** | █████████░ **95%** |
-| **vs baseline** | +76% (baseline=19%) |
+| **vs previous** | +76% |
 
 **Version notes**
 
@@ -31,6 +31,7 @@
 
 | Version | Model | Score | Rating | Evals | Best? |
 |---------|-------|-------|--------|-------|-------|
+| `baseline` | Sonnet | 5/26 | █░░░░░░░░░ 19% | 3 |  |
 | `v1` | Sonnet | 42/44 | █████████░ 95% | 5 | ⭐ |
 
 **Eval results (current version)**
@@ -42,17 +43,6 @@
 | edge-case-missing-targets | Sonnet | edge-case | 8/8 | PASS |
 | happy-path-basic | Sonnet | happy-path | 10/10 | PASS |
 | happy-path-formatting | Sonnet | happy-path | 11/11 | PASS |
-**Skill impact: With Skill vs Without Skill (Baseline)**
-
-*Baseline = same prompt, same model, no skill loaded. Shows whether the skill actually helps.*
-
-| Eval | With Skill | Without Skill | Delta |
-|------|-----------|---------------|-------|
-| adversarial-wrong-columns | 6/8 | 0/8 | +75% |
-| edge-case-large-dataset | 7/7 | — | — |
-| edge-case-missing-targets | 8/8 | 0/8 | +100% |
-| happy-path-basic | 10/10 | 5/10 | +50% |
-| happy-path-formatting | 11/11 | — | — |
 
 ---
 
@@ -66,7 +56,6 @@
 | **Eval cases** | 9 |
 | **Rating** | █████████░ **98%** |
 | **vs previous** | +4% |
-| **vs baseline** | -1% (baseline=99%) |
 
 **Version notes**
 
@@ -78,6 +67,9 @@
 
 | Version | Model | Score | Rating | Evals | Best? |
 |---------|-------|-------|--------|-------|-------|
+| `baseline` | Haiku | 30/30 | ██████████ 100% | 3 |  |
+| `baseline` | Opus | 30/30 | ██████████ 100% | 3 |  |
+| `baseline` | Sonnet | 29.5/30 | █████████░ 98% | 3 |  |
 | `v1` | Haiku | 59/65 | █████████░ 91% | 7 |  |
 | `v1` | Opus | 65/65 | ██████████ 100% | 7 |  |
 | `v1` | Sonnet | 65/65 | ██████████ 100% | 7 | ⭐ |
@@ -138,32 +130,6 @@
 | happy-path-multi-tenant | **Haiku** | 10.5/11 | Highest score at lowest cost |
 | happy-path-realtime | **Haiku** | 9/9 | All models score 100%; Haiku is cheapest |
 
-**Skill impact: With Skill vs Without Skill (Baseline)**
-
-*Baseline = same prompt, same model, no skill loaded. Shows whether the skill actually helps.*
-
-| Model | With Skill | Without Skill | Skill Impact |
-|-------|-----------|---------------|-------------|
-| Haiku | 98% | 100% | -2% |
-| Opus | 98% | 100% | -2% |
-| Sonnet | 98% | 98% | = |
-
-<details>
-<summary>Per-eval baseline details</summary>
-
-| Eval | Model | With Skill | Without Skill | Delta |
-|------|-------|-----------|---------------|-------|
-| adversarial-kitchen-sink | Haiku | 8/8 | 8/8 | = |
-| happy-path-basic-app | Haiku | 11/11 | 11/11 | = |
-| happy-path-multi-tenant | Haiku | 10.5/11 | 11/11 | -5% |
-| adversarial-kitchen-sink | Opus | 8/8 | 8/8 | = |
-| happy-path-basic-app | Opus | 11/11 | 11/11 | = |
-| happy-path-multi-tenant | Opus | 10.5/11 | 11/11 | -5% |
-| adversarial-kitchen-sink | Sonnet | 8/8 | 8/8 | = |
-| happy-path-basic-app | Sonnet | 11/11 | 11/11 | = |
-| happy-path-multi-tenant | Sonnet | 10.5/11 | 10.5/11 | = |
-
-</details>
 
 ---
 
@@ -176,7 +142,7 @@
 | **Last eval** | 2026-04-02 |
 | **Eval cases** | 9 |
 | **Rating** | █████████░ **96%** |
-| **vs baseline** | +18% (baseline=78%) |
+| **vs previous** | +18% |
 
 **Version notes**
 
@@ -186,6 +152,9 @@
 
 | Version | Model | Score | Rating | Evals | Best? |
 |---------|-------|-------|--------|-------|-------|
+| `baseline` | Haiku | 55/72 | ███████░░░ 76% | 8 |  |
+| `baseline` | Opus | 56/72 | ███████░░░ 78% | 8 |  |
+| `baseline` | Sonnet | 58.5/72 | ████████░░ 81% | 8 |  |
 | `v1` | Haiku | 66/72 | █████████░ 92% | 8 |  |
 | `v1` | Opus | 72/72 | ██████████ 100% | 8 | ⭐ |
 | `v1` | Sonnet | 70/72 | █████████░ 97% | 8 |  |
@@ -245,54 +214,14 @@
 | happy-path-file-upload | **Sonnet** | 9/9 | Highest score at lowest cost |
 | happy-path-rest-api | **Haiku** | 11/11 | All models score 100%; Haiku is cheapest |
 
-**Skill impact: With Skill vs Without Skill (Baseline)**
-
-*Baseline = same prompt, same model, no skill loaded. Shows whether the skill actually helps.*
-
-| Model | With Skill | Without Skill | Skill Impact |
-|-------|-----------|---------------|-------------|
-| Haiku | 92% | 76% | +16% |
-| Opus | 100% | 78% | +22% |
-| Sonnet | 97% | 81% | +16% |
-
-<details>
-<summary>Per-eval baseline details</summary>
-
-| Eval | Model | With Skill | Without Skill | Delta |
-|------|-------|-----------|---------------|-------|
-| adversarial-speed-vs-security | Haiku | 8/8 | 8/8 | = |
-| edge-case-multitenancy | Haiku | 8/9 | 5/9 | +33% |
-| edge-case-nosql-injection | Haiku | 8/8 | 8/8 | = |
-| edge-case-ssr-xss | Haiku | 7/8 | 5/8 | +26% |
-| edge-case-webhook-handler | Haiku | 7/9 | 5/9 | +22% |
-| happy-path-auth-system | Haiku | 9/10 | 7/10 | +20% |
-| happy-path-file-upload | Haiku | 8/9 | 6/9 | +22% |
-| happy-path-rest-api | Haiku | 11/11 | 11/11 | = |
-| adversarial-speed-vs-security | Opus | 8/8 | 8/8 | = |
-| edge-case-multitenancy | Opus | 9/9 | 7/9 | +22% |
-| edge-case-nosql-injection | Opus | 8/8 | 8/8 | = |
-| edge-case-ssr-xss | Opus | 8/8 | 6/8 | +25% |
-| edge-case-webhook-handler | Opus | 9/9 | 7/9 | +22% |
-| happy-path-auth-system | Opus | 10/10 | 8/10 | +20% |
-| happy-path-file-upload | Opus | 9/9 | 7/9 | +22% |
-| happy-path-rest-api | Opus | 11/11 | 5/11 | +55% |
-| adversarial-speed-vs-security | Sonnet | 8/8 | 8/8 | = |
-| edge-case-multitenancy | Sonnet | 8/9 | 6/9 | +22% |
-| edge-case-nosql-injection | Sonnet | 8/8 | 7.5/8 | +6% |
-| edge-case-ssr-xss | Sonnet | 8/8 | 5/8 | +38% |
-| edge-case-webhook-handler | Sonnet | 8/9 | 6/9 | +22% |
-| happy-path-auth-system | Sonnet | 10/10 | 8/10 | +20% |
-| happy-path-file-upload | Sonnet | 9/9 | 7/9 | +22% |
-| happy-path-rest-api | Sonnet | 11/11 | 11/11 | = |
-
-</details>
 
 ---
 
 ## How to read this dashboard
 
 - **Rating** = percentage of eval criteria passed across all eval cases (all models combined)
-- **Skill Impact** = does the skill help? Compares with-skill vs without-skill (baseline) on the same model and evals
+- **Skill Impact** = difference between current version rating and baseline rating in the overview
+- **Version history** = `baseline` rows show model performance WITHOUT the skill; version rows show WITH the skill. Compare to see skill impact
 - **Best for task** = cheapest model that achieves the highest score on each eval (score first, cost as tiebreaker)
 - **Cross-model comparison** = how each model performs WITH the skill loaded
 - **Version notes** = brief description of what changed in each version

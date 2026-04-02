@@ -31,11 +31,10 @@ This reads all `eval-results/*/results.jsonl` files and generates `dashboard.md`
 
 ### Per-skill sections
 - **Version notes** — brief description of what changed per version (from `<!-- version-notes: ... -->` in SKILL.md)
-- **Version history (per model)** — score breakdown by version and model, with ⭐ on best (cheapest model at highest score)
+- **Version history (per model)** — baseline rows first (no skill), then version rows (with skill), with ⭐ on best (cheapest model at highest score). Baseline is the reference point — compare version rows against it to see skill impact
 - **Coverage warnings** — ⚠️ when current version has fewer evals than previous
 - **Cross-model comparison** — per-eval scores across all models for current version
 - **Best for task** — cheapest model that achieves the highest score per eval
-- **Skill Impact** — with-skill vs without-skill (baseline) comparison per model
 
 ## After recording results, always
 
