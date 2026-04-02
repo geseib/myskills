@@ -1,3 +1,7 @@
+---
+name: skill-name
+description: Short description of what this skill does and when to use it.
+---
 # Skill Name
 
 Short description of what this skill does.

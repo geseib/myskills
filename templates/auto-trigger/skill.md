@@ -1,3 +1,8 @@
+---
+name: skill-name
+description: Short description of what this skill does and when to use it.
+user-invocable: false
+---
 # Skill Name
 
 Short description of what this skill does.

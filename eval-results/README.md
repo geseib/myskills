@@ -46,9 +46,10 @@ Each line in `results.jsonl` is a JSON object:
 | `eval_id` | Matches the eval case filename (without `eval-` prefix and `.md` suffix) |
 | `run_id` | ISO timestamp of the eval run |
 | `skill_version` | Semantic version tag (v1, v1.1, v2, etc.) |
-| `skill_commit` | Git short SHA of the skill.md at time of eval |
+| `skill_commit` | Git short SHA of the SKILL.md at time of eval |
 | `model` | Model ID used (e.g., claude-opus-4-6, claude-sonnet-4-6) |
 | `with_skill` | `true` = skill loaded, `false` = baseline (no skill) |
+| `eval_set_version` | Version of the eval set used (e.g., `v1`) — required for lineage tracking |
 | `criteria` | Object mapping each criterion to pass/fail + notes |
 | `overall` | `pass`, `partial`, or `fail` |
 | `score` | Fraction of criteria passed |
@@ -57,9 +58,13 @@ Each line in `results.jsonl` is a JSON object:
 
 ## Versioning
 
-Skill versions are tagged in `skill.md` frontmatter and tracked in results:
+Skill versions are tagged in `SKILL.md` (below the YAML frontmatter) and tracked in results:
 
 ```markdown
+---
+name: skill-name
+description: What this skill does.
+---
 <!-- skill-version: v1 -->
 ```
 

@@ -40,9 +40,9 @@ def parse_score(score_str):
 
 
 def get_skill_version(skill_name):
-    """Read skill version from skill.md frontmatter."""
+    """Read skill version from SKILL.md frontmatter."""
     for base in [DRAFTS_DIR, SKILLS_DIR]:
-        skill_file = base / skill_name / "skill.md"
+        skill_file = base / skill_name / "SKILL.md"
         if skill_file.exists():
             content = skill_file.read_text()
             match = re.search(r"skill-version:\s*(v[\w.]+)", content)
@@ -52,13 +52,13 @@ def get_skill_version(skill_name):
 
 
 def get_version_notes(skill_name):
-    """Read version notes from skill.md frontmatter.
+    """Read version notes from SKILL.md frontmatter.
 
     Format: <!-- version-notes: v1=Short desc; v2=Short desc -->
     Returns dict like {"v1": "Short desc", "v2": "Short desc"}
     """
     for base in [DRAFTS_DIR, SKILLS_DIR]:
-        skill_file = base / skill_name / "skill.md"
+        skill_file = base / skill_name / "SKILL.md"
         if skill_file.exists():
             content = skill_file.read_text()
             match = re.search(r"version-notes:\s*(.+?)-->", content)
@@ -90,9 +90,9 @@ def _model_cost(model_name):
 
 def get_skill_location(skill_name):
     """Check if skill is in drafts/ or skills/."""
-    if (SKILLS_DIR / skill_name / "skill.md").exists():
+    if (SKILLS_DIR / skill_name / "SKILL.md").exists():
         return "skills"
-    if (DRAFTS_DIR / skill_name / "skill.md").exists():
+    if (DRAFTS_DIR / skill_name / "SKILL.md").exists():
         return "drafts"
     return "unknown"
 
@@ -513,7 +513,7 @@ def generate_dashboard():
     for base in [SKILLS_DIR, DRAFTS_DIR]:
         if base.exists():
             for d in sorted(base.iterdir()):
-                if d.is_dir() and (d / "skill.md").exists():
+                if d.is_dir() and (d / "SKILL.md").exists():
                     if d.name not in skill_names:
                         skill_names.append(d.name)
 

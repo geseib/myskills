@@ -22,7 +22,7 @@ catalog.md       Index of all production skills with tags
 
 ```bash
 cp -r templates/basic drafts/my-new-skill
-# Edit drafts/my-new-skill/skill.md
+# Edit drafts/my-new-skill/SKILL.md
 # Write eval cases in drafts/my-new-skill/evals/
 # Test, iterate, refine
 # When ready: mv drafts/my-new-skill skills/my-new-skill
@@ -42,13 +42,13 @@ cp -r templates/basic drafts/my-new-skill
 
 In your project's `.claude/settings.json` or CLAUDE.md, reference:
 ```
-~/myskills/skills/<skill-name>/skill.md
+~/myskills/skills/<skill-name>/SKILL.md
 ```
 
 **Option B — Copy into project** (skill is self-contained in that repo):
 
 ```bash
-cp ~/myskills/skills/<skill-name>/skill.md \
+cp ~/myskills/skills/<skill-name>/SKILL.md \
    ~/my-project/.claude/skills/<skill-name>.md
 ```
 
@@ -68,7 +68,7 @@ Each skill folder contains:
 
 ```
 <skill-name>/
-  skill.md        # The prompt — what Claude reads (required)
+  SKILL.md        # The prompt — what Claude reads (required)
   README.md       # Human docs: purpose, usage, examples
   evals/          # Test cases for this skill
     eval-*.md     # Individual eval scenarios

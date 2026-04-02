@@ -1,3 +1,9 @@
+---
+name: dashboard-management
+description: Manages the skills dashboard. Regenerates it after eval runs, validates accuracy, and ensures fair comparisons across models and versions.
+user-invocable: false
+---
+
 # Dashboard Management
 
 Manage the skills dashboard — regenerate it after eval runs, validate its accuracy, and ensure it reflects fair comparisons.
@@ -24,7 +30,7 @@ This reads all `eval-results/*/results.jsonl` files and generates `dashboard.md`
 - Skill name, status (draft/prod), current version, rating, eval count, skill impact
 
 ### Per-skill sections
-- **Version notes** — brief description of what changed per version (from `<!-- version-notes: ... -->` in skill.md)
+- **Version notes** — brief description of what changed per version (from `<!-- version-notes: ... -->` in SKILL.md)
 - **Version history (per model)** — score breakdown by version and model, with ⭐ on best (cheapest model at highest score)
 - **Coverage warnings** — ⚠️ when current version has fewer evals than previous
 - **Cross-model comparison** — per-eval scores across all models for current version
@@ -42,7 +48,7 @@ This reads all `eval-results/*/results.jsonl` files and generates `dashboard.md`
 
 ## Adding version notes
 
-When bumping a skill version, add or update the frontmatter in skill.md:
+When bumping a skill version, add or update the frontmatter in SKILL.md:
 
 ```
 <!-- skill-version: v2 -->
@@ -71,6 +77,7 @@ Each line in `eval-results/<skill>/results.jsonl`:
   "skill_commit": "abc1234",
   "model": "claude-sonnet-4-6",
   "with_skill": true,
+  "eval_set_version": "v1",
   "score": "9/11",
   "overall": "pass",
   "notes": "Missed rate limiting on one endpoint."

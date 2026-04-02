@@ -1,3 +1,9 @@
+---
+name: eval-methodology
+description: Ensures skill evaluations produce fair, comparable results across models and versions. Governs how evals are run, graded, and recorded in this repo.
+user-invocable: false
+---
+
 # Eval Methodology
 
 Ensure skill evaluations produce fair, comparable results across models and versions. This skill governs HOW evals are run in this repo.
@@ -94,7 +100,7 @@ If v2 only ran 4 of 7 evals from v1, the dashboard will:
 
 Baseline runs measure what the model does WITHOUT the skill. They must:
 - Use the EXACT same task prompt as the with-skill run
-- NOT include the skill.md content
+- NOT include the SKILL.md content
 - NOT include eval criteria in the prompt
 - Be graded by a separate agent/pass using the eval criteria
 

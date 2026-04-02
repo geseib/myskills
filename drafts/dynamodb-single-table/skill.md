@@ -1,3 +1,7 @@
+---
+name: dynamodb-single-table
+description: Designs DynamoDB tables using single table design. One table, generic keys, co-located entities, GSI overloading. Use when designing or reviewing DynamoDB data models, key design, or GSI strategy.
+---
 <!-- skill-version: v3 -->
 <!-- version-notes: v1=Initial skill with core patterns and examples; v2=Added feed fanout, migration guidance, denormalization tradeoffs; v3=Condensed for smaller models — rules over examples, removed verbose patterns -->
 # DynamoDB Single Table Design

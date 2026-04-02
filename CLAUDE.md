@@ -14,11 +14,15 @@ Do not confuse these. Operational skills tell you how to build and test subject 
 
 ```
 .claude/skills/          # Repo operational skills (auto-loaded by Claude Code)
-  eval-methodology.md    # How to run fair, accurate evals
-  dashboard-management.md # How to manage the dashboard and results
+  eval-methodology/
+    SKILL.md             # How to run fair, accurate evals
+  dashboard-management/
+    SKILL.md             # How to manage the dashboard and results
+  eval-rebase/
+    SKILL.md             # How to handle eval versioning and lineage
 skills/                  # Production-ready subject skills, each in its own folder
   <skill-name>/
-    skill.md             # The skill prompt (required)
+    SKILL.md             # The skill prompt (required, with YAML frontmatter)
     README.md            # Docs: purpose, usage, examples
     evals/               # Eval cases specific to this skill
 drafts/                  # WIP: experiments, imports being adapted, new ideas
@@ -50,7 +54,7 @@ scripts/
                         ▼
  ┌─────────────────────────────────────────────────────┐
  │  drafts/<skill-name>/                               │
- │  - Iterate on skill.md                              │
+ │  - Iterate on SKILL.md                              │
  │  - Write evals, test against them                   │
  │  - Refine until it reliably does what you want      │
  └──────────────────────┬──────────────────────────────┘
@@ -65,16 +69,16 @@ scripts/
  ┌─────────────────────────────────────────────────────┐
  │  OTHER PROJECTS                                     │
  │  - Reference via path in project settings.json      │
- │  - Or copy skill.md into project's .claude/skills/  │
+ │  - Or copy SKILL.md into project's .claude/skills/  │
  │  - Improvements flow back here                      │
  └─────────────────────────────────────────────────────┘
 ```
 
 ## Conventions
 
-- Every skill lives in its own folder with at minimum a `skill.md` file
+- Every skill lives in its own folder with at minimum a `SKILL.md` file (with YAML frontmatter containing `name:` and `description:`)
 - New skills start in `drafts/`, move to `skills/` once tested and reliable
-- Skill prompts go in `skill.md`, documentation in `README.md`
+- Skill prompts go in `SKILL.md`, documentation in `README.md`
 - Keep skills focused — one clear purpose per skill
 - When importing from another project, drop in `drafts/` first to adapt and test
 - When a skill is promoted to `skills/`, add it to `catalog.md`
@@ -102,9 +106,10 @@ This is the end-to-end workflow for building, evaluating, and shipping a skill. 
 
 ### Phase 1: Create the skill
 
-1. **Scaffold** — create `drafts/<skill-name>/` with `skill.md`, `README.md`, and `evals/`
-2. **Write skill.md** with this structure:
-   - `<!-- skill-version: v1 -->` frontmatter tag at the top
+1. **Scaffold** — create `drafts/<skill-name>/` with `SKILL.md`, `README.md`, and `evals/`
+2. **Write SKILL.md** with this structure:
+   - YAML frontmatter with `name:` and `description:` fields
+   - `<!-- skill-version: v1 -->` version tag (below frontmatter)
    - Clear trigger conditions (when to use / when not to use)
    - **Ordered methodology** — a step-by-step process the model must follow (e.g., "Step 1: Threat model FIRST"). This is where skills add the most value — enforcing a consistent methodology that smaller models skip.
    - Concrete code patterns with CORRECT and WRONG examples
@@ -133,10 +138,10 @@ Run evals across **three model tiers** to measure where the skill adds value:
 | Haiku | Floor — skill should show the most contrast vs baseline |
 
 For each model, run:
-1. **With skill** — all eval cases (model reads skill.md, then responds to the prompt)
+1. **With skill** — all eval cases (model reads SKILL.md, then responds to the prompt)
 2. **Baseline** (without skill) — 3 representative evals (1 happy-path, 1 edge-case, 1 adversarial) to measure native model capability
 
-**CRITICAL: Separate generation from grading.** See `.claude/skills/eval-methodology.md` for the full protocol. Key rules:
+**CRITICAL: Separate generation from grading.** See `.claude/skills/eval-methodology/SKILL.md` for the full protocol. Key rules:
 
 - **Generation prompt must NOT include eval criteria.** If the model sees "SELF-EVALUATE against: 1. uses Zod, 2. uses helmet..." it will treat the criteria as requirements and inflate scores. Send only the task prompt.
 - **Grade in a separate pass.** After the model generates code, evaluate the output against criteria in a separate agent/conversation. The grader reads the generated code and scores it — the generator never sees the rubric.
@@ -155,13 +160,14 @@ Append results to `eval-results/<skill-name>/results.jsonl`:
   "skill_commit": "abc1234",
   "model": "claude-sonnet-4-6",
   "with_skill": true,
+  "eval_set_version": "v1",
   "score": "9/11",
   "overall": "pass",
   "notes": "Missed rate limiting on one endpoint."
 }
 ```
 
-Fields: `eval_id`, `run_id` (ISO timestamp), `skill_version` (from frontmatter or "baseline"), `skill_commit`, `model`, `with_skill` (true/false), `score` (X/Y), `overall` (pass/partial/fail), `notes`.
+Fields: `eval_id`, `run_id` (ISO timestamp), `skill_version` (from frontmatter or "baseline"), `skill_commit`, `model`, `with_skill` (true/false), `eval_set_version`, `score` (X/Y), `overall` (pass/partial/fail), `notes`.
 
 ### Phase 5: Regenerate dashboard
 
@@ -177,21 +183,21 @@ This reads all `eval-results/*/results.jsonl` files and generates `dashboard.md`
 
 ### Phase 6: Iterate or promote
 
-- If scores are low → revise `skill.md`, bump version tag (`v2`), re-run evals
+- If scores are low → revise `SKILL.md`, bump version tag (`v2`), re-run evals
 - If passing on all models → promote from `drafts/` to `skills/`, add to `catalog.md`
 - Version history is automatically tracked in the dashboard
 
 ### Versioning
 
-- Version tag in `skill.md` frontmatter: `<!-- skill-version: v1 -->`
+- Version tag in `SKILL.md`: `<!-- skill-version: v1 -->` (below YAML frontmatter)
 - Bump version when changing the skill content, then re-run evals
 - Results JSONL captures `skill_version` per result — dashboard shows trends across versions
 - Never delete old results — they form the version history
-- **Archive previous versions:** When bumping from v1→v2, copy the old skill.md to `versions/v1.md`. This allows re-running old version evals without git checkout:
+- **Archive previous versions:** When bumping from v1→v2, copy the old SKILL.md to `versions/v1.md`. This allows re-running old version evals without git checkout:
 
 ```
 drafts/<skill-name>/
-  skill.md              ← always the latest version
+  SKILL.md              ← always the latest version
   versions/
     v1.md               ← frozen copy of v1
     v2.md               ← frozen copy of v2 (after v3 is created)

@@ -1,13 +1,13 @@
 # Skills Dashboard
 
-*Last generated: 2026-04-01 13:24 UTC*
+*Last generated: 2026-04-02 13:06 UTC*
 
 ## Overview
 
 | Skill | Status | Version | Rating | Evals | Skill Impact |
 |-------|--------|---------|--------|-------|-------------|
 | [dynamodb-single-table](#dynamodb-single-table) | `draft` | `v3` | █████████░ 98% | 9 | -1% |
-| [nodejs-security](#nodejs-security) | `draft` | `v1` | ██████████ 100% | 8 | +8% |
+| [nodejs-security](#nodejs-security) | `draft` | `v1` | ██████████ 100% | 9 | +8% |
 
 ## Skill Details
 
@@ -129,7 +129,7 @@
 | **Status** | `draft` |
 | **Version** | `v1` |
 | **Last eval** | 2026-04-01 |
-| **Eval cases** | 8 |
+| **Eval cases** | 9 |
 | **Rating** | ██████████ **100%** |
 | **vs baseline** | +8% (baseline=92%) |
 

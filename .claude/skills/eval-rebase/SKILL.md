@@ -1,3 +1,9 @@
+---
+name: eval-rebase
+description: Ensures eval consistency across skill versions. Tracks eval lineage so every score is traceable to the exact criteria that produced it.
+user-invocable: false
+---
+
 # Eval Rebase
 
 Ensure eval consistency across skill versions. Track eval lineage so every score is traceable to the exact criteria that produced it.

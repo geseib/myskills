@@ -1,3 +1,7 @@
+---
+name: nodejs-security
+description: Writes secure Node.js applications by default. Applies OWASP Top 10 mitigations, validates all inputs, handles authentication safely, and prevents common Node.js-specific vulnerabilities. Use when building Node.js APIs, handling authentication, processing user input, or reviewing code for security issues.
+---
 <!-- skill-version: v1 -->
 <!-- version-notes: v1=Initial skill covering OWASP Top 10, Zod validation, bcrypt, helmet, rate limiting -->
 # Node.js Security Best Practices

@@ -1,3 +1,7 @@
+---
+name: skill-name
+description: Short description of what this skill does when invoked via slash command.
+---
 # /skill-name
 
 Short description of what this skill does when invoked.
