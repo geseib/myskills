@@ -1,13 +1,13 @@
 # Skills Dashboard
 
-*Last generated: 2026-04-02 13:06 UTC*
+*Last generated: 2026-04-02 14:00 UTC*
 
 ## Overview
 
 | Skill | Status | Version | Rating | Evals | Skill Impact |
 |-------|--------|---------|--------|-------|-------------|
 | [dynamodb-single-table](#dynamodb-single-table) | `draft` | `v3` | █████████░ 98% | 9 | -1% |
-| [nodejs-security](#nodejs-security) | `draft` | `v1` | ██████████ 100% | 9 | +8% |
+| [nodejs-security](#nodejs-security) | `draft` | `v1` | █████████░ 96% | 9 | +18% |
 
 ## Skill Details
 
@@ -128,10 +128,10 @@
 |---|---|
 | **Status** | `draft` |
 | **Version** | `v1` |
-| **Last eval** | 2026-04-01 |
+| **Last eval** | 2026-04-02 |
 | **Eval cases** | 9 |
-| **Rating** | ██████████ **100%** |
-| **vs baseline** | +8% (baseline=92%) |
+| **Rating** | █████████░ **96%** |
+| **vs baseline** | +18% (baseline=78%) |
 
 **Version notes**
 
@@ -141,9 +141,9 @@
 
 | Version | Model | Score | Rating | Evals | Best? |
 |---------|-------|-------|--------|-------|-------|
-| `v1` | Haiku | 27/27 | ██████████ 100% | 3 | ⭐ |
-| `v1` | Opus | 27/27 | ██████████ 100% | 3 |  |
-| `v1` | Sonnet | 27/27 | ██████████ 100% | 3 |  |
+| `v1` | Haiku | 66/72 | █████████░ 92% | 8 |  |
+| `v1` | Opus | 72/72 | ██████████ 100% | 8 | ⭐ |
+| `v1` | Sonnet | 70/72 | █████████░ 97% | 8 |  |
 
 **Eval results (current version)**
 
@@ -152,9 +152,24 @@
 | adversarial-speed-vs-security | Haiku | adversarial | 8/8 | PASS |
 | adversarial-speed-vs-security | Sonnet | adversarial | 8/8 | PASS |
 | adversarial-speed-vs-security | Opus | adversarial | 8/8 | PASS |
+| edge-case-multitenancy | Haiku | edge-case | 8/9 | PASS |
+| edge-case-multitenancy | Sonnet | edge-case | 8/9 | PASS |
+| edge-case-multitenancy | Opus | edge-case | 9/9 | PASS |
 | edge-case-nosql-injection | Haiku | edge-case | 8/8 | PASS |
 | edge-case-nosql-injection | Sonnet | edge-case | 8/8 | PASS |
 | edge-case-nosql-injection | Opus | edge-case | 8/8 | PASS |
+| edge-case-ssr-xss | Haiku | edge-case | 7/8 | PASS |
+| edge-case-ssr-xss | Sonnet | edge-case | 8/8 | PASS |
+| edge-case-ssr-xss | Opus | edge-case | 8/8 | PASS |
+| edge-case-webhook-handler | Haiku | edge-case | 7/9 | PASS |
+| edge-case-webhook-handler | Sonnet | edge-case | 8/9 | PASS |
+| edge-case-webhook-handler | Opus | edge-case | 9/9 | PASS |
+| happy-path-auth-system | Haiku | happy-path | 9/10 | PASS |
+| happy-path-auth-system | Sonnet | happy-path | 10/10 | PASS |
+| happy-path-auth-system | Opus | happy-path | 10/10 | PASS |
+| happy-path-file-upload | Haiku | happy-path | 8/9 | PASS |
+| happy-path-file-upload | Sonnet | happy-path | 9/9 | PASS |
+| happy-path-file-upload | Opus | happy-path | 9/9 | PASS |
 | happy-path-rest-api | Haiku | happy-path | 11/11 | PASS |
 | happy-path-rest-api | Sonnet | happy-path | 11/11 | PASS |
 | happy-path-rest-api | Opus | happy-path | 11/11 | PASS |
@@ -163,16 +178,26 @@
 | Eval | Haiku | Opus | Sonnet |
 |------|-----|-----|-----|
 | adversarial-speed-vs-security | 8/8 | 8/8 | 8/8 |
+| edge-case-multitenancy | 8/9 | 9/9 | 8/9 |
 | edge-case-nosql-injection | 8/8 | 8/8 | 8/8 |
+| edge-case-ssr-xss | 7/8 | 8/8 | 8/8 |
+| edge-case-webhook-handler | 7/9 | 9/9 | 8/9 |
+| happy-path-auth-system | 9/10 | 10/10 | 10/10 |
+| happy-path-file-upload | 8/9 | 9/9 | 9/9 |
 | happy-path-rest-api | 11/11 | 11/11 | 11/11 |
-| **Total** | **100%** | **100%** | **100%** |
+| **Total** | **92%** | **100%** | **97%** |
 
 **Best for task** *(highest score, cheapest model as tiebreaker)*
 
 | Eval | Best Model | Score | Why |
 |------|-----------|-------|-----|
 | adversarial-speed-vs-security | **Haiku** | 8/8 | All models score 100%; Haiku is cheapest |
+| edge-case-multitenancy | **Opus** | 9/9 | Highest score at lowest cost |
 | edge-case-nosql-injection | **Haiku** | 8/8 | All models score 100%; Haiku is cheapest |
+| edge-case-ssr-xss | **Sonnet** | 8/8 | Highest score at lowest cost |
+| edge-case-webhook-handler | **Opus** | 9/9 | Highest score at lowest cost |
+| happy-path-auth-system | **Sonnet** | 10/10 | Highest score at lowest cost |
+| happy-path-file-upload | **Sonnet** | 9/9 | Highest score at lowest cost |
 | happy-path-rest-api | **Haiku** | 11/11 | All models score 100%; Haiku is cheapest |
 
 **Skill impact: With Skill vs Without Skill (Baseline)**
@@ -181,9 +206,9 @@
 
 | Model | With Skill | Without Skill | Skill Impact |
 |-------|-----------|---------------|-------------|
-| Haiku | 100% | 100% | = |
+| Haiku | 92% | 76% | +16% |
 | Opus | 100% | 78% | +22% |
-| Sonnet | 100% | 98% | +2% |
+| Sonnet | 97% | 81% | +16% |
 
 <details>
 <summary>Per-eval baseline details</summary>
@@ -191,13 +216,28 @@
 | Eval | Model | With Skill | Without Skill | Delta |
 |------|-------|-----------|---------------|-------|
 | adversarial-speed-vs-security | Haiku | 8/8 | 8/8 | = |
+| edge-case-multitenancy | Haiku | 8/9 | 5/9 | +33% |
 | edge-case-nosql-injection | Haiku | 8/8 | 8/8 | = |
+| edge-case-ssr-xss | Haiku | 7/8 | 5/8 | +26% |
+| edge-case-webhook-handler | Haiku | 7/9 | 5/9 | +22% |
+| happy-path-auth-system | Haiku | 9/10 | 7/10 | +20% |
+| happy-path-file-upload | Haiku | 8/9 | 6/9 | +22% |
 | happy-path-rest-api | Haiku | 11/11 | 11/11 | = |
 | adversarial-speed-vs-security | Opus | 8/8 | 8/8 | = |
+| edge-case-multitenancy | Opus | 9/9 | 7/9 | +22% |
 | edge-case-nosql-injection | Opus | 8/8 | 8/8 | = |
+| edge-case-ssr-xss | Opus | 8/8 | 6/8 | +25% |
+| edge-case-webhook-handler | Opus | 9/9 | 7/9 | +22% |
+| happy-path-auth-system | Opus | 10/10 | 8/10 | +20% |
+| happy-path-file-upload | Opus | 9/9 | 7/9 | +22% |
 | happy-path-rest-api | Opus | 11/11 | 5/11 | +55% |
 | adversarial-speed-vs-security | Sonnet | 8/8 | 8/8 | = |
+| edge-case-multitenancy | Sonnet | 8/9 | 6/9 | +22% |
 | edge-case-nosql-injection | Sonnet | 8/8 | 7.5/8 | +6% |
+| edge-case-ssr-xss | Sonnet | 8/8 | 5/8 | +38% |
+| edge-case-webhook-handler | Sonnet | 8/9 | 6/9 | +22% |
+| happy-path-auth-system | Sonnet | 10/10 | 8/10 | +20% |
+| happy-path-file-upload | Sonnet | 9/9 | 7/9 | +22% |
 | happy-path-rest-api | Sonnet | 11/11 | 11/11 | = |
 
 </details>
