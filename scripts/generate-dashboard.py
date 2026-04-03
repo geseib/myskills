@@ -323,6 +323,7 @@ def generate_skill_section(skill_name, results):
     # Per-model breakdown
     all_models = sorted(set(r.get("model", "unknown") for r in results))
     if len(all_models) > 1:
+        lines.append("")
         lines.append("**Cross-model comparison (current version)**")
         lines.append("")
         model_headers = " | ".join(f"{_short_model(m)}" for m in all_models)
