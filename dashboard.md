@@ -1,12 +1,12 @@
 # Skills Dashboard
 
-*Last generated: 2026-04-02 23:46 UTC*
+*Last generated: 2026-04-03 02:50 UTC*
 
 ## Overview
 
 | Skill | Status | Version | Rating | Evals | Skill Impact |
 |-------|--------|---------|--------|-------|-------------|
-| [csv-to-excel-report](#csv-to-excel-report) | `draft` | `v1` | █████████░ 95% | 6 | +76% |
+| [csv-to-excel-report](#csv-to-excel-report) | `draft` | `v1` | █████████░ 92% | 6 | +43% |
 | [dynamodb-single-table](#dynamodb-single-table) | `draft` | `v3` | █████████░ 98% | 9 | -1% |
 | [nodejs-security](#nodejs-security) | `draft` | `v1` | █████████░ 96% | 9 | +18% |
 
@@ -20,8 +20,8 @@
 | **Version** | `v1` |
 | **Last eval** | 2026-04-02 |
 | **Eval cases** | 6 |
-| **Rating** | █████████░ **95%** |
-| **vs previous** | +76% |
+| **Rating** | █████████░ **92%** |
+| **vs previous** | +43% |
 
 **Version notes**
 
@@ -31,18 +31,53 @@
 
 | Version | Model | Score | Rating | Evals | Best? |
 |---------|-------|-------|--------|-------|-------|
-| `baseline` | Sonnet | 5/26 | █░░░░░░░░░ 19% | 3 |  |
-| `v1` | Sonnet | 42/44 | █████████░ 95% | 5 | ⭐ |
+| `baseline` | Haiku | 9/44 | ██░░░░░░░░ 20% | 5 |  |
+| `baseline` | Opus | 33/44 | ███████░░░ 75% | 5 |  |
+| `baseline` | Sonnet | 23/44 | █████░░░░░ 52% | 5 |  |
+| `v1` | Haiku | 37/44 | ████████░░ 84% | 5 |  |
+| `v1` | Opus | 43/44 | █████████░ 98% | 5 | ⭐ |
+| `v1` | Sonnet | 42/44 | █████████░ 95% | 5 |  |
 
 **Eval results (current version)**
 
 | Eval | Model | Type | Score | Result |
 |------|-------|------|-------|--------|
+| adversarial-wrong-columns | Haiku | adversarial | 3/8 | FAIL |
 | adversarial-wrong-columns | Sonnet | adversarial | 6/8 | PASS |
+| adversarial-wrong-columns | Opus | adversarial | 7/8 | PASS |
+| edge-case-large-dataset | Haiku | edge-case | 6/7 | PASS |
 | edge-case-large-dataset | Sonnet | edge-case | 7/7 | PASS |
+| edge-case-large-dataset | Opus | edge-case | 7/7 | PASS |
+| edge-case-missing-targets | Haiku | edge-case | 7/8 | PASS |
 | edge-case-missing-targets | Sonnet | edge-case | 8/8 | PASS |
+| edge-case-missing-targets | Opus | edge-case | 8/8 | PASS |
+| happy-path-basic | Haiku | happy-path | 10/10 | PASS |
 | happy-path-basic | Sonnet | happy-path | 10/10 | PASS |
+| happy-path-basic | Opus | happy-path | 10/10 | PASS |
+| happy-path-formatting | Haiku | happy-path | 11/11 | PASS |
 | happy-path-formatting | Sonnet | happy-path | 11/11 | PASS |
+| happy-path-formatting | Opus | happy-path | 11/11 | PASS |
+**Cross-model comparison (current version)**
+
+| Eval | Haiku | Opus | Sonnet |
+|------|-----|-----|-----|
+| adversarial-wrong-columns | 3/8 | 7/8 | 6/8 |
+| edge-case-large-dataset | 6/7 | 7/7 | 7/7 |
+| edge-case-missing-targets | 7/8 | 8/8 | 8/8 |
+| happy-path-basic | 10/10 | 10/10 | 10/10 |
+| happy-path-formatting | 11/11 | 11/11 | 11/11 |
+| **Total** | **84%** | **98%** | **95%** |
+
+**Best for task** *(highest score, cheapest model as tiebreaker)*
+
+| Eval | Best Model | Score | Why |
+|------|-----------|-------|-----|
+| adversarial-wrong-columns | **Opus** | 7/8 | Highest score at lowest cost |
+| edge-case-large-dataset | **Sonnet** | 7/7 | Highest score at lowest cost |
+| edge-case-missing-targets | **Sonnet** | 8/8 | Highest score at lowest cost |
+| happy-path-basic | **Haiku** | 10/10 | All models score 100%; Haiku is cheapest |
+| happy-path-formatting | **Haiku** | 11/11 | All models score 100%; Haiku is cheapest |
+
 
 ---
 
