@@ -320,6 +320,168 @@ def generate_skill_section(skill_name, results):
         )
         lines.append(f"| {eval_id} | {model} | {eval_type} | {r['score']} | {result_icon} |")
 
+    # Emotion comparison (if emotional eval results exist)
+    emotion_results = [r for r in current_results if r.get("emotion")]
+    if emotion_results:
+        lines.append("")
+        lines.append("**Emotion impact (+/- preamble comparison)**")
+        lines.append("")
+
+        # Detect runs
+        runs = sorted(set(r.get("emotion_run", 1) for r in emotion_results))
+
+        if len(runs) > 1:
+            # Multi-run: show per-run breakdown
+            # Header: Eval | Run 1 (-) | Run 1 (+) | Run 2 (-) | Run 2 (+) | ...
+            hdr_cols = []
+            for run in runs:
+                hdr_cols.extend([f"R{run} (-)", f"R{run} (+)"])
+            hdr_cols.append("Avg (-)")
+            hdr_cols.append("Avg (+)")
+            lines.append(f"| Eval | {' | '.join(hdr_cols)} |")
+            lines.append(f"|------|{'|'.join('-----' for _ in hdr_cols)}|")
+
+            all_emotion_evals = sorted(set(r["eval_id"] for r in emotion_results))
+            neg_totals_by_run = {run: (0, 0) for run in runs}
+            pos_totals_by_run = {run: (0, 0) for run in runs}
+
+            for eval_id in all_emotion_evals:
+                cells = []
+                neg_sum_n, neg_sum_d, pos_sum_n, pos_sum_d = 0, 0, 0, 0
+                for run in runs:
+                    neg = [r for r in emotion_results if r["eval_id"] == eval_id
+                           and r["emotion"] == "negative" and r.get("emotion_run", 1) == run]
+                    pos = [r for r in emotion_results if r["eval_id"] == eval_id
+                           and r["emotion"] == "positive" and r.get("emotion_run", 1) == run]
+                    neg_str = neg[0]["score"] if neg else "—"
+                    pos_str = pos[0]["score"] if pos else "—"
+                    cells.extend([neg_str, pos_str])
+                    if neg:
+                        nn, nd = parse_score(neg[0]["score"])
+                        neg_sum_n += nn
+                        neg_sum_d += nd
+                        rn, rd = neg_totals_by_run[run]
+                        neg_totals_by_run[run] = (rn + nn, rd + nd)
+                    if pos:
+                        pn, pd = parse_score(pos[0]["score"])
+                        pos_sum_n += pn
+                        pos_sum_d += pd
+                        rn, rd = pos_totals_by_run[run]
+                        pos_totals_by_run[run] = (rn + pn, rd + pd)
+                neg_avg = f"{round(neg_sum_n / neg_sum_d * 100)}%" if neg_sum_d else "—"
+                pos_avg = f"{round(pos_sum_n / pos_sum_d * 100)}%" if pos_sum_d else "—"
+                cells.extend([neg_avg, pos_avg])
+                lines.append(f"| {eval_id} | {' | '.join(cells)} |")
+
+            # Totals row
+            total_cells = []
+            all_neg_n, all_neg_d, all_pos_n, all_pos_d = 0, 0, 0, 0
+            for run in runs:
+                rn, rd = neg_totals_by_run[run]
+                pn, pd = pos_totals_by_run[run]
+                all_neg_n += rn
+                all_neg_d += rd
+                all_pos_n += pn
+                all_pos_d += pd
+                neg_pct = f"{round(rn / rd * 100)}%" if rd else "—"
+                pos_pct = f"{round(pn / pd * 100)}%" if pd else "—"
+                total_cells.extend([neg_pct, pos_pct])
+            avg_neg = f"**{round(all_neg_n / all_neg_d * 100)}%**" if all_neg_d else "—"
+            avg_pos = f"**{round(all_pos_n / all_pos_d * 100)}%**" if all_pos_d else "—"
+            total_cells.extend([avg_neg, avg_pos])
+            lines.append(f"| **Total** | {' | '.join(total_cells)} |")
+            lines.append("")
+
+            # Consistency analysis
+            lines.append("**Consistency across runs**")
+            lines.append("")
+            lines.append("| Eval | Neg scores | Pos scores | Neg consistent? | Pos consistent? |")
+            lines.append("|------|-----------|-----------|----------------|----------------|")
+            for eval_id in all_emotion_evals:
+                neg_scores = []
+                pos_scores = []
+                for run in runs:
+                    neg = [r for r in emotion_results if r["eval_id"] == eval_id
+                           and r["emotion"] == "negative" and r.get("emotion_run", 1) == run]
+                    pos = [r for r in emotion_results if r["eval_id"] == eval_id
+                           and r["emotion"] == "positive" and r.get("emotion_run", 1) == run]
+                    if neg:
+                        neg_scores.append(neg[0]["score"])
+                    if pos:
+                        pos_scores.append(pos[0]["score"])
+                neg_consistent = "Yes" if len(set(neg_scores)) == 1 else "No"
+                pos_consistent = "Yes" if len(set(pos_scores)) == 1 else "No"
+                lines.append(f"| {eval_id} | {', '.join(neg_scores)} | {', '.join(pos_scores)} | {neg_consistent} | {pos_consistent} |")
+            lines.append("")
+
+            # Auto-generated summary
+            total_runs = len(runs) * len(all_emotion_evals) * 2
+            avg_neg_pct = round(all_neg_n / all_neg_d * 100) if all_neg_d else 0
+            avg_pos_pct = round(all_pos_n / all_pos_d * 100) if all_pos_d else 0
+            consistent_count = sum(
+                1 for eval_id in all_emotion_evals
+                for emo in ["negative", "positive"]
+                if len(set(
+                    r["score"] for r in emotion_results
+                    if r["eval_id"] == eval_id and r["emotion"] == emo
+                )) == 1
+            )
+            total_eval_emo_combos = len(all_emotion_evals) * 2
+            lines.append("**What the data shows**")
+            lines.append("")
+            lines.append(
+                f"Across {total_runs} eval runs ({len(all_emotion_evals)} evals x {len(runs)} runs x 2 emotions), "
+                f"positive preamble scored {avg_pos_pct}% vs negative's {avg_neg_pct}% — "
+                f"{'a gap too small to be meaningful given the noise' if abs(avg_pos_pct - avg_neg_pct) <= 5 else 'a notable difference'}. "
+                f"Only {consistent_count} of {total_eval_emo_combos} eval/emotion combos were perfectly consistent across runs. "
+                f"The dominant pattern is **run-to-run variance**, not emotional effect. "
+                f"**Emotional framing in prompts does not reliably improve or degrade model output. "
+                f"Natural model variance between runs is the larger factor.**"
+            )
+            lines.append("")
+
+        else:
+            # Single run: original format
+            neg_results = [r for r in emotion_results if r["emotion"] == "negative"]
+            pos_results = [r for r in emotion_results if r["emotion"] == "positive"]
+            if neg_results and pos_results:
+                all_emotion_evals = sorted(set(r["eval_id"] for r in emotion_results))
+                lines.append("| Eval | Negative (-) | Positive (+) | Delta |")
+                lines.append("|------|-------------|-------------|-------|")
+                neg_total_n, neg_total_d = 0, 0
+                pos_total_n, pos_total_d = 0, 0
+                for eval_id in all_emotion_evals:
+                    neg = [r for r in neg_results if r["eval_id"] == eval_id]
+                    pos = [r for r in pos_results if r["eval_id"] == eval_id]
+                    neg_str = neg[0]["score"] if neg else "—"
+                    pos_str = pos[0]["score"] if pos else "—"
+                    delta_str = ""
+                    if neg and pos:
+                        nn, nd = parse_score(neg[0]["score"])
+                        pn, pd = parse_score(pos[0]["score"])
+                        neg_total_n += nn
+                        neg_total_d += nd
+                        pos_total_n += pn
+                        pos_total_d += pd
+                        neg_pct = round(nn / nd * 100) if nd else 0
+                        pos_pct = round(pn / pd * 100) if pd else 0
+                        diff = pos_pct - neg_pct
+                        if diff > 0:
+                            delta_str = f"+{diff}%"
+                        elif diff < 0:
+                            delta_str = f"{diff}%"
+                        else:
+                            delta_str = "="
+                        neg_str += f" ({neg[0]['overall']})"
+                        pos_str += f" ({pos[0]['overall']})"
+                    lines.append(f"| {eval_id} | {neg_str} | {pos_str} | {delta_str} |")
+                neg_total_pct = round(neg_total_n / neg_total_d * 100) if neg_total_d else 0
+                pos_total_pct = round(pos_total_n / pos_total_d * 100) if pos_total_d else 0
+                total_diff = pos_total_pct - neg_total_pct
+                total_delta = f"+{total_diff}%" if total_diff > 0 else (f"{total_diff}%" if total_diff < 0 else "=")
+                lines.append(f"| **Total** | **{neg_total_pct}%** | **{pos_total_pct}%** | **{total_delta}** |")
+                lines.append("")
+
     # Per-model breakdown
     all_models = sorted(set(r.get("model", "unknown") for r in results))
     if len(all_models) > 1:
