@@ -1,13 +1,13 @@
 # Skills Dashboard
 
-*Last generated: 2026-04-03 02:50 UTC*
+*Last generated: 2026-04-03 11:06 UTC*
 
 ## Overview
 
 | Skill | Status | Version | Rating | Evals | Skill Impact |
 |-------|--------|---------|--------|-------|-------------|
 | [csv-to-excel-report](#csv-to-excel-report) | `draft` | `v1` | █████████░ 92% | 6 | +43% |
-| [dynamodb-single-table](#dynamodb-single-table) | `draft` | `v3` | █████████░ 98% | 9 | -1% |
+| [dynamodb-single-table](#dynamodb-single-table) | `draft` | `v3` | █████████░ 98% | 9 | +31% |
 | [nodejs-security](#nodejs-security) | `draft` | `v1` | █████████░ 96% | 9 | +18% |
 
 ## Skill Details
@@ -102,7 +102,7 @@
 
 | Version | Model | Score | Rating | Evals | Best? |
 |---------|-------|-------|--------|-------|-------|
-| `baseline` | Haiku | 30/30 | ██████████ 100% | 3 |  |
+| `baseline` | Haiku | 24/65 | ███░░░░░░░ 37% | 7 |  |
 | `baseline` | Opus | 30/30 | ██████████ 100% | 3 |  |
 | `baseline` | Sonnet | 29.5/30 | █████████░ 98% | 3 |  |
 | `v1` | Haiku | 59/65 | █████████░ 91% | 7 |  |
