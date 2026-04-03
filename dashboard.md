@@ -1,13 +1,13 @@
 # Skills Dashboard
 
-*Last generated: 2026-04-03 11:35 UTC*
+*Last generated: 2026-04-03 11:43 UTC*
 
 ## Overview
 
 | Skill | Status | Version | Rating | Evals | Skill Impact |
 |-------|--------|---------|--------|-------|-------------|
 | [csv-to-excel-report](#csv-to-excel-report) | `draft` | `v1` | █████████░ 92% | 6 | +43% |
-| [dynamodb-single-table](#dynamodb-single-table) | `draft` | `v3` | █████████░ 98% | 9 | +31% |
+| [dynamodb-single-table](#dynamodb-single-table) | `draft` | `v3` | █████████░ 90% | 9 | +23% |
 | [nodejs-security](#nodejs-security) | `draft` | `v1` | █████████░ 96% | 9 | +18% |
 
 ## Skill Details
@@ -88,10 +88,10 @@
 |---|---|
 | **Status** | `draft` |
 | **Version** | `v3` |
-| **Last eval** | 2026-04-01 |
+| **Last eval** | 2026-04-03 |
 | **Eval cases** | 9 |
-| **Rating** | █████████░ **98%** |
-| **vs previous** | +4% |
+| **Rating** | █████████░ **90%** |
+| **vs previous** | -4% |
 
 **Version notes**
 
@@ -112,6 +112,7 @@
 | `v2` | Haiku | 58.5/65 | █████████░ 90% | 7 |  |
 | `v2` | Opus | 65/65 | ██████████ 100% | 7 |  |
 | `v2` | Sonnet | 60.5/65 | █████████░ 93% | 7 |  |
+| `v3` | Haiku | 293/342 | ████████░░ 86% | 42 |  |
 | `v3` | Haiku | 64.5/65 | █████████░ 99% | 7 |  |
 | `v3` | Opus | 63.5/65 | █████████░ 98% | 7 |  |
 | `v3` | Sonnet | 64/65 | █████████░ 98% | 7 |  |
@@ -121,39 +122,111 @@
 | Eval | Model | Type | Score | Result |
 |------|-------|------|-------|--------|
 | adversarial-kitchen-sink | Haiku | adversarial | 8/8 | PASS |
+| adversarial-kitchen-sink | Haiku | adversarial | 7/7 | PASS |
+| adversarial-kitchen-sink | Haiku | adversarial | 7/7 | PASS |
+| adversarial-kitchen-sink | Haiku | adversarial | 7/7 | PASS |
+| adversarial-kitchen-sink | Haiku | adversarial | 7/7 | PASS |
+| adversarial-kitchen-sink | Haiku | adversarial | 7/7 | PASS |
+| adversarial-kitchen-sink | Haiku | adversarial | 7/7 | PASS |
 | adversarial-kitchen-sink | Sonnet | adversarial | 8/8 | PASS |
 | adversarial-kitchen-sink | Opus | adversarial | 8/8 | PASS |
 | edge-case-many-to-many | Haiku | edge-case | 8/8 | PASS |
+| edge-case-many-to-many | Haiku | edge-case | 6/8 | PARTIAL |
+| edge-case-many-to-many | Haiku | edge-case | 8/8 | PASS |
+| edge-case-many-to-many | Haiku | edge-case | 5/8 | FAIL |
+| edge-case-many-to-many | Haiku | edge-case | 8/8 | PASS |
+| edge-case-many-to-many | Haiku | edge-case | 4/8 | FAIL |
+| edge-case-many-to-many | Haiku | edge-case | 4/8 | FAIL |
 | edge-case-many-to-many | Sonnet | edge-case | 8/8 | PASS |
 | edge-case-many-to-many | Opus | edge-case | 7.5/8 | PASS |
+| edge-case-migration | Haiku | edge-case | 9/9 | PASS |
+| edge-case-migration | Haiku | edge-case | 8/9 | PASS |
+| edge-case-migration | Haiku | edge-case | 8/9 | PASS |
+| edge-case-migration | Haiku | edge-case | 8/9 | PASS |
+| edge-case-migration | Haiku | edge-case | 8/9 | PASS |
+| edge-case-migration | Haiku | edge-case | 9/9 | PASS |
 | edge-case-migration | Haiku | edge-case | 9/9 | PASS |
 | edge-case-migration | Sonnet | edge-case | 8.5/9 | PASS |
 | edge-case-migration | Opus | edge-case | 8.5/9 | PASS |
 | edge-case-time-series | Haiku | edge-case | 9/9 | PASS |
+| edge-case-time-series | Haiku | edge-case | 7/7 | PASS |
+| edge-case-time-series | Haiku | edge-case | 7/7 | PASS |
+| edge-case-time-series | Haiku | edge-case | 5/7 | PARTIAL |
+| edge-case-time-series | Haiku | edge-case | 6/7 | PARTIAL |
+| edge-case-time-series | Haiku | edge-case | 7/7 | PASS |
+| edge-case-time-series | Haiku | edge-case | 5/7 | PARTIAL |
 | edge-case-time-series | Sonnet | edge-case | 9/9 | PASS |
 | edge-case-time-series | Opus | edge-case | 9/9 | PASS |
 | happy-path-basic-app | Haiku | happy-path | 11/11 | PASS |
+| happy-path-basic-app | Haiku | happy-path | 9/9 | PASS |
+| happy-path-basic-app | Haiku | happy-path | 8/9 | PASS |
+| happy-path-basic-app | Haiku | happy-path | 9/9 | PASS |
+| happy-path-basic-app | Haiku | happy-path | 9/9 | PASS |
+| happy-path-basic-app | Haiku | happy-path | 8/9 | PASS |
+| happy-path-basic-app | Haiku | happy-path | 9/9 | PASS |
 | happy-path-basic-app | Sonnet | happy-path | 11/11 | PASS |
 | happy-path-basic-app | Opus | happy-path | 11/11 | PASS |
 | happy-path-multi-tenant | Haiku | happy-path | 10.5/11 | PASS |
+| happy-path-multi-tenant | Haiku | happy-path | 8/11 | PARTIAL |
+| happy-path-multi-tenant | Haiku | happy-path | 7/11 | PARTIAL |
+| happy-path-multi-tenant | Haiku | happy-path | 8/11 | PARTIAL |
+| happy-path-multi-tenant | Haiku | happy-path | 7/11 | PARTIAL |
+| happy-path-multi-tenant | Haiku | happy-path | 7/11 | PARTIAL |
+| happy-path-multi-tenant | Haiku | happy-path | 6/11 | FAIL |
 | happy-path-multi-tenant | Sonnet | happy-path | 10.5/11 | PASS |
 | happy-path-multi-tenant | Opus | happy-path | 10.5/11 | PASS |
 | happy-path-realtime | Haiku | happy-path | 9/9 | PASS |
+| happy-path-realtime | Haiku | happy-path | 6/6 | PASS |
+| happy-path-realtime | Haiku | happy-path | 6/6 | PASS |
+| happy-path-realtime | Haiku | happy-path | 4/6 | PARTIAL |
+| happy-path-realtime | Haiku | happy-path | 6/6 | PASS |
+| happy-path-realtime | Haiku | happy-path | 6/6 | PASS |
+| happy-path-realtime | Haiku | happy-path | 6/6 | PASS |
 | happy-path-realtime | Sonnet | happy-path | 9/9 | PASS |
 | happy-path-realtime | Opus | happy-path | 9/9 | PASS |
 
+**Emotion impact (+/- preamble comparison)**
+
+| Eval | R1 (-) | R1 (+) | R2 (-) | R2 (+) | R3 (-) | R3 (+) | Avg (-) | Avg (+) |
+|------|-----|-----|-----|-----|-----|-----|-----|-----|
+| adversarial-kitchen-sink | 7/7 | 7/7 | 7/7 | 7/7 | 7/7 | 7/7 | 100% | 100% |
+| edge-case-many-to-many | 6/8 | 8/8 | 5/8 | 8/8 | 4/8 | 4/8 | 62% | 83% |
+| edge-case-migration | 8/9 | 8/9 | 8/9 | 8/9 | 9/9 | 9/9 | 93% | 93% |
+| edge-case-time-series | 7/7 | 7/7 | 5/7 | 6/7 | 7/7 | 5/7 | 90% | 86% |
+| happy-path-basic-app | 9/9 | 8/9 | 9/9 | 9/9 | 8/9 | 9/9 | 96% | 96% |
+| happy-path-multi-tenant | 8/11 | 7/11 | 8/11 | 7/11 | 7/11 | 6/11 | 70% | 61% |
+| happy-path-realtime | 6/6 | 6/6 | 4/6 | 6/6 | 6/6 | 6/6 | 89% | 100% |
+| **Total** | 89% | 89% | 81% | 89% | 84% | 81% | **85%** | **87%** |
+
+**Consistency across runs**
+
+| Eval | Neg scores | Pos scores | Neg consistent? | Pos consistent? |
+|------|-----------|-----------|----------------|----------------|
+| adversarial-kitchen-sink | 7/7, 7/7, 7/7 | 7/7, 7/7, 7/7 | Yes | Yes |
+| edge-case-many-to-many | 6/8, 5/8, 4/8 | 8/8, 8/8, 4/8 | No | No |
+| edge-case-migration | 8/9, 8/9, 9/9 | 8/9, 8/9, 9/9 | No | No |
+| edge-case-time-series | 7/7, 5/7, 7/7 | 7/7, 6/7, 5/7 | No | No |
+| happy-path-basic-app | 9/9, 9/9, 8/9 | 8/9, 9/9, 9/9 | No | No |
+| happy-path-multi-tenant | 8/11, 8/11, 7/11 | 7/11, 7/11, 6/11 | No | No |
+| happy-path-realtime | 6/6, 4/6, 6/6 | 6/6, 6/6, 6/6 | No | Yes |
+
+**What the data shows**
+
+Across 42 eval runs (7 evals x 3 runs x 2 emotions), positive preamble scored 87% vs negative's 85% — a gap too small to be meaningful given the noise. Only 3 of 14 eval/emotion combos were perfectly consistent across runs. The dominant pattern is **run-to-run variance**, not emotional effect. **Emotional framing in prompts does not reliably improve or degrade model output. Natural model variance between runs is the larger factor.**
+
+
 **Cross-model comparison (current version)**
 
-| Eval | Haiku | Opus | Sonnet |
-|------|-----|-----|-----|
-| adversarial-kitchen-sink | 8/8 | 8/8 | 8/8 |
-| edge-case-many-to-many | 8/8 | 7.5/8 | 8/8 |
-| edge-case-migration | 9/9 | 8.5/9 | 8.5/9 |
-| edge-case-time-series | 9/9 | 9/9 | 9/9 |
-| happy-path-basic-app | 11/11 | 11/11 | 11/11 |
-| happy-path-multi-tenant | 10.5/11 | 10.5/11 | 10.5/11 |
-| happy-path-realtime | 9/9 | 9/9 | 9/9 |
-| **Total** | **99%** | **98%** | **98%** |
+| Eval | Haiku | Haiku | Opus | Sonnet |
+|------|-----|-----|-----|-----|
+| adversarial-kitchen-sink | 7/7 | 8/8 | 8/8 | 8/8 |
+| edge-case-many-to-many | 6/8 | 8/8 | 7.5/8 | 8/8 |
+| edge-case-migration | 8/9 | 9/9 | 8.5/9 | 8.5/9 |
+| edge-case-time-series | 7/7 | 9/9 | 9/9 | 9/9 |
+| happy-path-basic-app | 9/9 | 11/11 | 11/11 | 11/11 |
+| happy-path-multi-tenant | 8/11 | 10.5/11 | 10.5/11 | 10.5/11 |
+| happy-path-realtime | 6/6 | 9/9 | 9/9 | 9/9 |
+| **Total** | **86%** | **99%** | **98%** | **98%** |
 
 **Best for task** *(highest score, cheapest model as tiebreaker)*
 
@@ -162,10 +235,10 @@
 | adversarial-kitchen-sink | **Haiku** | 8/8 | All models score 100%; Haiku is cheapest |
 | edge-case-many-to-many | **Haiku** | 8/8 | Highest score at lowest cost |
 | edge-case-migration | **Haiku** | 9/9 | Highest score at lowest cost |
-| edge-case-time-series | **Haiku** | 9/9 | All models score 100%; Haiku is cheapest |
-| happy-path-basic-app | **Haiku** | 11/11 | All models score 100%; Haiku is cheapest |
+| edge-case-time-series | **Haiku** | 9/9 | Highest score at lowest cost |
+| happy-path-basic-app | **Haiku** | 11/11 | Highest score at lowest cost |
 | happy-path-multi-tenant | **Haiku** | 10.5/11 | Highest score at lowest cost |
-| happy-path-realtime | **Haiku** | 9/9 | All models score 100%; Haiku is cheapest |
+| happy-path-realtime | **Haiku** | 9/9 | Highest score at lowest cost |
 
 
 ---
