@@ -181,7 +181,6 @@ claudemd_analysis() {
         echo ""
 
         # Extract strong directives from each file
-        local -A directives_by_file
         for i in "${!files[@]}"; do
             local f="${files[$i]}"
             # Look for lines with NEVER, ALWAYS, MUST, DO NOT, IMPORTANT
@@ -203,8 +202,8 @@ claudemd_analysis() {
             for (( j=i+1; j<${#files[@]}; j++ )); do
                 # Look for cases where one says NEVER and the other says ALWAYS about the same topic
                 local nevers_i alwayses_j
-                nevers_i=$(grep -ioP '(?:NEVER|DO NOT|FORBIDDEN)\s+\K\w+(\s+\w+){0,3}' "${files[$i]}" 2>/dev/null | tr '[:upper:]' '[:lower:]' | sort -u || true)
-                alwayses_j=$(grep -ioP '(?:ALWAYS|MUST|REQUIRED)\s+\K\w+(\s+\w+){0,3}' "${files[$j]}" 2>/dev/null | tr '[:upper:]' '[:lower:]' | sort -u || true)
+                nevers_i=$(grep -iE '(NEVER|DO NOT|FORBIDDEN)' "${files[$i]}" 2>/dev/null | sed 's/.*\(NEVER\|DO NOT\|FORBIDDEN\)[[:space:]]*//' | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z\n' ' ' | sort -u || true)
+                alwayses_j=$(grep -iE '(ALWAYS|MUST|REQUIRED)' "${files[$j]}" 2>/dev/null | sed 's/.*\(ALWAYS\|MUST\|REQUIRED\)[[:space:]]*//' | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z\n' ' ' | sort -u || true)
 
                 if [[ -n "$nevers_i" && -n "$alwayses_j" ]]; then
                     # Find common words that might indicate contradiction
@@ -248,7 +247,7 @@ skill_trigger_analysis() {
 
             # Extract trigger conditions from near the top of the file (first 40 lines)
             # Only match lines that START with trigger-like patterns, not instructional references
-            trigger_line=$(head -40 "$sf" 2>/dev/null | grep -iP '^\s*(TRIGGER\s*(when|:)|DO NOT TRIGGER|When to use|Use this when|Activate when)' 2>/dev/null | head -3 || true)
+            trigger_line=$(head -40 "$sf" 2>/dev/null | grep -iE '^[[:space:]]*(TRIGGER[[:space:]]*(when|:)|DO NOT TRIGGER|When to use|Use this when|Activate when)' 2>/dev/null | head -3 || true)
 
             # Fall back to description from frontmatter
             if [[ -z "$trigger_line" ]]; then
@@ -297,15 +296,17 @@ skill_trigger_analysis() {
     for (( i=0; i<${#skill_names[@]}; i++ )); do
         for (( j=i+1; j<${#skill_names[@]}; j++ )); do
             local words_i words_j common
-            words_i=$(echo "${skill_triggers[$i]}" | tr '[:upper:]' '[:lower:]' | grep -oP '\b[a-z]{4,}\b' | sort -u || true)
-            words_j=$(echo "${skill_triggers[$j]}" | tr '[:upper:]' '[:lower:]' | grep -oP '\b[a-z]{4,}\b' | sort -u || true)
+            words_i=$(echo "${skill_triggers[$i]}" | tr '[:upper:]' '[:lower:]' | grep -oE '[a-z]{4,}' | sort -u || true)
+            words_j=$(echo "${skill_triggers[$j]}" | tr '[:upper:]' '[:lower:]' | grep -oE '[a-z]{4,}' | sort -u || true)
 
             if [[ -n "$words_i" && -n "$words_j" ]]; then
                 common=$(comm -12 <(echo "$words_i") <(echo "$words_j") 2>/dev/null || true)
                 # Filter out very common words
                 common=$(echo "$common" | grep -vE '^(this|that|with|from|when|then|have|will|been|code|file|used|using|make|also|each|into|more|some|than|them|they|what|your)$' || true)
-                local count
-                count=$(echo "$common" | grep -c . 2>/dev/null || echo 0)
+                local count=0
+                if [[ -n "$common" ]]; then
+                    count=$(printf '%s\n' "$common" | grep -c . 2>/dev/null || echo 0)
+                fi
                 if (( count >= 3 )); then
                     warn "Trigger overlap between '${skill_names[$i]}' and '${skill_names[$j]}'"
                     echo -e "    Shared keywords: ${YELLOW}$(echo "$common" | tr '\n' ', ' | sed 's/,$//')${RESET}"
