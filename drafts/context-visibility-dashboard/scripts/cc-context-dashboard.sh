@@ -59,12 +59,9 @@ check_deps() {
     fi
 }
 
-preview_cmd() {
-    if command -v bat >/dev/null 2>&1; then
-        echo "bat --color=always --style=numbers,header --line-range=:500"
-    else
-        echo "cat -n"
-    fi
+format_preview() {
+    # Use the companion formatter that indents wrapped lines past the gutter
+    echo "$SCRIPT_DIR/format-preview.sh"
 }
 
 # --- Git info helpers ---
@@ -304,8 +301,8 @@ launch_dashboard() {
     # Write summary for Ctrl-S
     generate_summary "$sources_file" > "$summary_txt"
 
-    local pcmd
-    pcmd=$(preview_cmd)
+    local fmt
+    fmt=$(format_preview)
 
     # Sort: active (*) first, missing (space) second
     local sorted_file
@@ -333,7 +330,7 @@ launch_dashboard() {
                 echo \"Est. tokens: \$(( \$(wc -c < \"\$filepath\" | tr -d ' ') / 4 ))\"
                 echo '---'
                 echo ''
-                $pcmd \"\$filepath\" 2>/dev/null || cat -n \"\$filepath\"
+                $fmt \"\$filepath\" \"\$FZF_PREVIEW_COLUMNS\" 2>/dev/null || cat -n \"\$filepath\"
             else
                 echo \"Cannot read: \$filepath\"
             fi
