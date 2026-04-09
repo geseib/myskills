@@ -1,0 +1,1 @@
+/home/user/myskills/drafts/context-visibility-dashboard/SKILL.md
