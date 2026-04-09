@@ -26,6 +26,7 @@ CLAUDE_HOME="${CLAUDE_HOME:-$HOME/.claude}"
 
 PROJECT_DIR=""
 MODE="dashboard"  # dashboard | analyze | dump | tmux | tmux-pane | ghostty
+PREVIEW_POS="right:60%:wrap"  # fzf --preview-window value
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -34,6 +35,7 @@ while [[ $# -gt 0 ]]; do
         --tmux)         MODE="tmux"; shift;;
         --tmux-pane)    MODE="tmux-pane"; shift;;
         --ghostty)      MODE="ghostty"; shift;;
+        --preview-top)  PREVIEW_POS="up:60%:wrap"; shift;;
         --project-dir)  PROJECT_DIR="$2"; shift 2;;
         -h|--help)
             sed -n '2,/^$/{ s/^# //; s/^#$//; p }' "$0"
@@ -335,7 +337,7 @@ launch_dashboard() {
                 echo \"Cannot read: \$filepath\"
             fi
         " \
-        --preview-window='right:60%:wrap' \
+        --preview-window="$PREVIEW_POS" \
         --bind="enter:execute(
             line=\$(grep -nF {} '$sorted_file' | head -1 | cut -d: -f1)
             filepath=\$(sed -n \"\${line}p\" '$sorted_file' | cut -f1)
