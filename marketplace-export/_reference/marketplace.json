@@ -1,0 +1,199 @@
+{
+  "name": "seibtribemarket",
+  "owner": {
+    "name": "George Seib"
+  },
+  "metadata": {
+    "description": "Seib Tribe Market \u2014 reusable Claude Code skills.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "dynamodb-single-table",
+      "source": "./plugins/dynamodb-single-table",
+      "description": "Designs DynamoDB tables using single table design with generic keys, co-located entities, and GSI overloading.",
+      "version": "1.0.0",
+      "author": {
+        "name": "myskills"
+      },
+      "category": "skill",
+      "keywords": [
+        "aws",
+        "dynamodb",
+        "data-modeling",
+        "database",
+        "architecture"
+      ]
+    },
+    {
+      "name": "nodejs-security",
+      "source": "./plugins/nodejs-security",
+      "description": "Writes secure Node.js applications by default, applying OWASP Top 10 mitigations, input validation, and safe authentication.",
+      "version": "1.0.0",
+      "author": {
+        "name": "myskills"
+      },
+      "category": "skill",
+      "keywords": [
+        "nodejs",
+        "security",
+        "owasp",
+        "authentication",
+        "backend"
+      ]
+    },
+    {
+      "name": "csv-to-excel-report",
+      "source": "./plugins/csv-to-excel-report",
+      "description": "Generates styled Excel reports from CSV data, merging transactions with targets and calculating KPIs into a formatted .xlsx workbook.",
+      "version": "1.0.0",
+      "author": {
+        "name": "myskills"
+      },
+      "category": "skill",
+      "keywords": [
+        "excel",
+        "csv",
+        "reporting",
+        "data",
+        "openpyxl"
+      ]
+    },
+    {
+      "name": "context-audit",
+      "source": "./plugins/context-audit",
+      "description": "Analyzes all Claude Code context sources for conflicts, overlapping skill triggers, and ambiguity.",
+      "version": "1.0.0",
+      "author": {
+        "name": "myskills"
+      },
+      "category": "skill",
+      "keywords": [
+        "claude-code",
+        "meta",
+        "context",
+        "tooling",
+        "audit"
+      ]
+    },
+    {
+      "name": "pdlc",
+      "source": "./plugins/pdlc",
+      "description": "Orchestrates a three-phase product development lifecycle workflow (Product, Architecture, Build) with human decision gates on local HTML pages.",
+      "version": "1.0.0",
+      "author": {
+        "name": "pdlc"
+      },
+      "category": "skill",
+      "keywords": [
+        "workflow",
+        "orchestration",
+        "product",
+        "process",
+        "automation"
+      ]
+    },
+    {
+      "name": "speckit-specify",
+      "source": "./plugins/speckit-specify",
+      "description": "Creates or updates a feature specification from a natural language feature description in a spec-kit project structure.",
+      "version": "1.0.0",
+      "author": {
+        "name": "learnsdd"
+      },
+      "category": "skill",
+      "keywords": [
+        "spec-driven",
+        "specification",
+        "planning",
+        "speckit",
+        "workflow"
+      ]
+    },
+    {
+      "name": "explain-code-spanish",
+      "source": "./plugins/explain-code-spanish",
+      "description": "Explains code in both English and Spanish to support bilingual developer learning.",
+      "version": "1.0.0",
+      "author": {
+        "name": "mindmap"
+      },
+      "category": "skill",
+      "keywords": [
+        "documentation",
+        "education",
+        "bilingual",
+        "spanish",
+        "explain"
+      ]
+    },
+    {
+      "name": "vote-overlay",
+      "source": "./plugins/vote-overlay",
+      "description": "Adds a feature-flagged section-voting overlay to React sites: per-section agree/disagree/unsure voting with comments, JSON ballot export, and a results mode tallying multiple ballot files inline and in a summary panel.",
+      "version": "1.0.0",
+      "author": {
+        "name": "myskills"
+      },
+      "category": "skill",
+      "keywords": [
+        "frontend",
+        "react",
+        "feedback",
+        "voting",
+        "review"
+      ]
+    },
+    {
+      "name": "eval-methodology",
+      "source": "./plugins/eval-methodology",
+      "description": "Fair, reproducible skill evaluations across models and versions. Separates generation from grading, enforces complete coverage, and uses cost-aware tiebreaking.",
+      "version": "1.0.0",
+      "author": {
+        "name": "myskills"
+      },
+      "category": "skill",
+      "keywords": [
+        "eval",
+        "testing",
+        "benchmarking",
+        "multi-model",
+        "methodology"
+      ]
+    },
+    {
+      "name": "eval-rebase",
+      "source": "./plugins/eval-rebase",
+      "description": "Eval versioning and consistency enforcement. Tracks eval lineage so every score is traceable to the exact criteria, skill version, and model that produced it.",
+      "version": "1.0.0",
+      "author": {
+        "name": "myskills"
+      },
+      "category": "skill",
+      "keywords": [
+        "eval",
+        "versioning",
+        "lineage",
+        "consistency",
+        "methodology"
+      ]
+    },
+    {
+      "name": "dashboard-management",
+      "source": "./plugins/dashboard-management",
+      "description": "Auto-generated eval dashboard from JSONL results. Shows cross-model comparisons, version history, skill impact vs baseline, and cost-aware best-for-task rankings.",
+      "version": "1.0.0",
+      "author": {
+        "name": "myskills"
+      },
+      "category": "skill",
+      "keywords": [
+        "dashboard",
+        "eval",
+        "reporting",
+        "visualization",
+        "methodology"
+      ]
+    }
+  ]
+}

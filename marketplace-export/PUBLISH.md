@@ -10,6 +10,21 @@ in **geseib/plugs** (the catalog SPA). The session where they were prepared was
 write-scoped to `geseib/myskills` only, so the pushes must happen from a session
 scoped to include `seibtribemarket` and `plugs`.
 
+## Fast path — copy the ready-made reference files
+
+`_reference/` holds the exact final artifacts, already built and validated:
+
+- `_reference/marketplace.json` → copy to `seibtribemarket/.claude-plugin/marketplace.json` (11 plugins)
+- `_reference/seibtribemarket-README.md` → copy to `seibtribemarket/README.md`
+- `_reference/data.js` → copy to `plugs/data.js` (catalog showing only seibtribemarket, 11 plugins incl. the 3 new eval skills)
+
+Plus copy the 3 plugin folders (`eval-methodology/`, `eval-rebase/`,
+`dashboard-management/`) into `seibtribemarket/plugins/`. Then commit + push both
+repos to `main`. That's the whole job — the detailed steps below are the manual
+equivalent if you'd rather rebuild than copy.
+
+---
+
 ## Steps for a session scoped to seibtribemarket + plugs (+ myskills)
 
 ### 1. Add the 3 plugins to seibtribemarket
