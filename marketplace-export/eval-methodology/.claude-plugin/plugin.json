@@ -1,0 +1,15 @@
+{
+  "name": "eval-methodology",
+  "description": "Fair, reproducible skill evaluations across models and versions. Separates generation from grading, enforces complete coverage, and uses cost-aware tiebreaking.",
+  "version": "1.0.0",
+  "author": {
+    "name": "myskills"
+  },
+  "keywords": [
+    "eval",
+    "testing",
+    "benchmarking",
+    "multi-model",
+    "methodology"
+  ]
+}

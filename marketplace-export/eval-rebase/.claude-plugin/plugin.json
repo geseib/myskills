@@ -1,0 +1,15 @@
+{
+  "name": "eval-rebase",
+  "description": "Eval versioning and consistency enforcement. Tracks eval lineage so every score traces to the exact criteria, skill version, and model that produced it.",
+  "version": "1.0.0",
+  "author": {
+    "name": "myskills"
+  },
+  "keywords": [
+    "eval",
+    "versioning",
+    "lineage",
+    "consistency",
+    "methodology"
+  ]
+}
