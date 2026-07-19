@@ -10,6 +10,22 @@ in **geseib/plugs** (the catalog SPA). The session where they were prepared was
 write-scoped to `geseib/myskills` only, so the pushes must happen from a session
 scoped to include `seibtribemarket` and `plugs`.
 
+## Target branch: `main` for BOTH repos
+
+The changes must end up on `main` in both `seibtribemarket` and `plugs`:
+
+- `claude plugin marketplace add geseib/seibtribemarket` reads the **default
+  branch** (`main`) — plugins are only installable once they're on `main`.
+- The catalog page (`index.html` + `data.js`) is served from `main` — the new
+  skills only show once `data.js` is on `main`.
+
+If this session assigns a designated `claude/...` working branch (Claude Code on
+the web often does), let the work land there and then **merge each PR into `main`**
+— one PR per repo. If direct commits to `main` are allowed, push straight to `main`.
+Either way, the end state is: changes on `main` in both repos.
+
+(`myskills` is unaffected — it only holds these reference files on its own branch.)
+
 ## Fast path — copy the ready-made reference files
 
 `_reference/` holds the exact final artifacts, already built and validated:
