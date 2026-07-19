@@ -17,7 +17,7 @@ Index of all production-ready skills in `skills/`.
 
 | Skill | Type | Tags | Summary |
 |-------|------|------|---------|
-| _none yet_ | | | |
+| [vote-overlay](skills/vote-overlay/) | invoke | `frontend`, `react`, `feedback` | Feature-flagged section-voting overlay: agree/disagree/unsure + comments per section, JSON ballot export, multi-file results tallies inline and in a summary panel. Ships full source as assets. |
 
 ## Tags reference
 
